@@ -1,0 +1,162 @@
+{% load static %}
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+</head>
+<body>
+<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="3">
+    <tr>
+        <td style="height:25px; background-color:#f3f3f3; font-weight:bold" valign="top">
+            &nbsp;&nbsp;&nbsp;&nbsp;当前位置：
+            <img src="{% static 'images/arrow.gif' %}" align="absmiddle">&nbsp;&nbsp;代理商管理系统&nbsp;&nbsp; <img
+                src="{% static 'images/arrow.gif' %}" align="absmiddle">&nbsp;&nbsp;系统管理&nbsp;&nbsp; <img
+                src="{% static 'images/arrow.gif' %}" align="absmiddle">&nbsp;&nbsp;用户管理
+        </td>
+    </tr>
+    <tr>
+        <td style="height:34px; background-image:url({% static 'images/main_header.gif' %}); border-bottom:1px solid #cfd8e0; padding:0px">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="20" height="34"><img src="{% static 'images/main_headerL.gif' %}" width="20" height="34">
+                    </td>
+                    <td style="color:#90c8e8;"><img src="{% static 'images/icon_card.gif' %}" width="16" height="16"
+                                                    align="absmiddle">&nbsp;&nbsp;<strong>用户管理</strong></td>
+                    <td align="right" class="white" style="padding-right:20px"><a href="{% url 'user_add' %}"
+                                                                                  class="barBtn"
+                                                                                  onClick="location.href='user-add.html'"><img
+                            src="{% static 'images/5.png' %}" align="absmiddle"> 新增</a> <a href="#" class="barBtn"
+                                                                                           onClick="javascript:history.go(-1);"><img
+                            src="{% static 'images/btn_left.gif' %}" align="absmiddle"> 后退</a> <a href="#"
+                                                                                                  class="barBtn"
+                                                                                                  onClick="javascript:history.go(+1);"><img
+                            src="{% static 'images/btn_right.gif' %}" align="absmiddle"> 前进</a> <a href="#"
+                                                                                                   class="barBtn"><img
+                            src="{% static 'images/btn_refresh.gif' %}" align="absmiddle"> 刷新</a></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td style="height:30px; background-color:#bddbff; border-bottom:1px solid #cfd8e0;">
+            <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
+                <TR>
+                    <th width="10%" align="center">用户名称名称</th>
+                    <td width="20%" class="BGCgray"><input type="text" name="textfield" id="textfield"></td>
+                    <th width="10%" align="center">用户名称名称</th>
+                    <td width="20%" class="BGCgray">
+                        <select>
+                            <option>请选择</option>
+                            <option>启用</option>
+                            <option>禁用</option>
+                        </select>
+                    </td>
+                    <th width="10%" align="center">
+                        <BUTTON style="HEIGHT:25px"
+                                onClick="javascript:if (confirm('查询数据？')) location.href='#';else return;"><img
+                                src="{% static 'images/btn_search.gif' %}" width="16" height="16" align="absmiddle"> 查询
+                        </BUTTON>
+                    </th>
+                </TR>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td height="100%" valign="top">
+            <div style="overflow:auto;height:100%; width:100%">
+                <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
+                    <TR>
+                        <th align="center"><input type="checkbox" name="checkbox" id="checkbox"></th>
+                        <th align="center">登录账号</th>
+                        <th align="center">用户名称</th>
+                        <th align="center">角色</th>
+                        <th align="center">创建时间</th>
+                        <th align="center">是否启用</th>
+                        <th width="160" align="center">操作</th>
+                    </TR>
+                    {% for user in user_all %}
+                        <TR>
+                            <TD align="center"><input type="checkbox" name="checkbox2" id="checkbox2"></TD>
+                            <TD align="center">{{ user.user_logname }}</TD>
+                            <TD align="center">{{ user.user_realname }}</TD>
+                            <TD align="center"></TD>
+                            <TD align="center">{{ user.user_starttime }}</TD>
+                            <TD align="center">{{ user.user_state1 }}</TD>
+                            <TD align="center">
+                                <BUTTON style="height:21px; font-size:12px"
+                                        onClick="javascript:location.href='{% url 'user_edit' %}'">修改
+                                </BUTTON>
+                                <BUTTON style="height:21px; font-size:12px"
+                                        onClick="javascript:if (confirm('确认操作？')) alert('操作成功！');">删除
+                                </BUTTON>
+                                <BUTTON style="height:21px; font-size:12px"
+                                        onClick="javascript:if (confirm('确认操作？')) alert('操作成功！');">禁用
+                                </BUTTON>
+                                <BUTTON style="height:21px; font-size:12px"
+                                        onClick="location.href='{% url 'user_pay' %}'">
+                                    预付款
+                                </BUTTON>
+                            </TD>
+                        </TR>
+                    {% endfor %}
+
+
+                </table>
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="20%" height="25">
+                            <table border="0" cellspacing="0" cellpadding="3">
+                                <tr>
+                                    {% for foo in user_all %}
+                                        {% if forloop.counter == 1 %}
+                                            <td><a href="{% url 'org_user_index1' o_user=forloop.counter %}"><img
+                                                    src="{% static 'images/prev_top.gif' %}" width="16" height="16"
+                                                    border="0" title="首页"></a></td>
+                                        {% endif %}
+                                        {#                                            <td></td>#}
+                                    {% endfor %}
+                                    {% if user_all.has_previous %}
+
+                                        <td>
+                                            <a href="{% url 'org_user_index1' o_user=user_all.previous_page_number %}"><img
+                                                    src="{% static 'images/prev.gif' %}" width="16" height="16"
+                                                    border="0" title="上一页"></a>
+                                        </td>
+                                    {% endif %}
+
+                                    {% if user_all.has_next %}
+                                        <td><a href="{% url 'org_user_index1' o_user=user_all.next_page_number %}"><img
+                                                src="{% static 'images/next.gif' %}" width="16" height="16"
+                                                border="0" title="下一页"></a></td>
+                                    {% endif %}
+                                    {#   尾页#}
+                                    <td><a href="{% url 'org_user_index1' o_user=user_all.paginator.num_pages %}"><img
+                                            src="{% static 'images/prev_end.gif' %}" width="16"
+                                            height="16"
+                                            border="0" title="尾页"></a></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="20%" align="center">
+                            <table border="0" cellspacing="0" cellpadding="3">
+                                <tr>
+                                    <td><a href="#"><img src="{% static 'images/next.gif' %}" width="16" height="16"
+                                                         border="0"></a></td>
+                                    <td><input name="textfield23" type="text" size="3" style="width:25px;height:18px">
+                                        /页
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="20%" align="right">共{{ count.count }}条记录
+                            显示到{{ user_all.number }}/{{ count.num_pages }}</td>
+                    </tr>
+                </table>
+            </div>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

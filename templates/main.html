@@ -1,0 +1,396 @@
+<html>
+<head>
+    {% load static %}
+    <title>代理商管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
+    <link rel="StyleSheet" href="{% static 'css/dtree.css' %}" type="text/css"/>
+    <script type="text/javascript" src="{% static 'js/dtree.js' %}"></script>
+</head>
+<body scroll="no">
+<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td height="79" background="{% static 'images/top_bg.gif' %}">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="500"><img src="{% static 'images/top_left.jpg' %}" width="500" height="79"></td>
+                    <td>&nbsp;</td>
+                    <td width="500" height="79">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td><img src="{% static 'images/top_right_a.gif' %}" width="500" height="47"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table width="500" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td width="150"><img src="{% static 'images/top_right_b1.gif' %}"
+                                                                 width="150" height="32"></td>
+                                            <td width="146" height="32"
+                                                background="{% static 'images/top_right_b2.gif' %}" class="white">
+                                                用户：administrator
+                                            </td>
+                                            <td width="74"><a href="pages/self_config/user-info.html" target="page"><img
+                                                    src="{% static 'images/top_right_b6.gif' %}" width="74" height="32"
+                                                    border="0"></a></td>
+                                            <td width="50"><a href="login.html"><img
+                                                    src="{% static 'images/top_right_b3.gif' %}" width="50" height="32"
+                                                    border="0"></a></td>
+                                            <td width="50"><a href="#"><img src="{% static 'images/top_right_b4.gif' %}"
+                                                                            width="50" height="32" border="0"></a></td>
+                                            <td width="30"><img src="{% static 'images/top_right_b5.gif' %}" width="30"
+                                                                height="32"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td height="100%">
+            <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0"
+                   style="background-repeat: repeat-x;">
+                <tr>
+                    <td width="175" height="100%" valign="top">
+                        <table width="175" height="100%" border="0" cellspacing="0" cellpadding="0"
+                               background="{% static 'images/menu_bg.gif' %}">
+                            <tr>
+                                <td height="25"><img src="{% static 'images/menu_top.gif' %}" width="175" height="25">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="100%"
+                                    style="background-image:url({% static 'images/menu_bgT.gif' %}); background-repeat:no-repeat"
+                                    valign="top">
+                                    <div class="dtree">
+{#                                        <script type="text/javascript">#}
+{#                                            d = new dTree('d');#}
+{#                                            d.config.stepDepth = 1;#}
+{#                                            d.config.useStatusText = true;#}
+{##}
+{#                                            d.add(0, -1, ' <strong>代理商管理系统</strong>');#}
+{#                                            d.add(1, 0, '代理商管理');#}
+{#                                            d.add(101, 1, '关键词申请', '{% url 'keyword_add' %}', "", 'page');#}
+{#                                            d.add(102, 1, '关键词申请管理', '{% url 'keyword_check' %}', "", 'page');#}
+{#                                            d.add(103, 1, '代理商客户管理', '{% url 'customer_list' %}', "", 'page');#}
+{#                                            d.add(104, 1, '代理商预付款', '{% url 'customerPay_list' %}', "", 'page');#}
+{#                                            d.add(105, 1, '操作日志', '{% url 'log_list' %}', "", 'page');#}
+{##}
+{#                                            d.add(2, 0, '门户管理');#}
+{#                                            d.add(201, 2, '门户管理', '{% url 'website_list' %}', "", 'page');#}
+{##}
+{#                                            d.add(3, 0, '报表管理');#}
+{#                                            d.add(301, 3, '报表管理', '{% url 'report_list' %}', "", 'page');#}
+{##}
+{#                                            d.add(4, 0, '系统管理');#}
+{#                                            d.add(401, 4, '财务管理', '{% url 'org_finace' %}', "", 'page');#}
+{#                                            d.add(402, 4, '角色管理', '{% url 'org_role_index' %}', "", 'page');#}
+{#                                            d.add(403, 4, '菜单管理', '{% url 'org_menu_index' %}', "", 'page');#}
+{#                                            d.add(404, 4, '用户管理', '{% url 'org_user_index' %}', "", 'page');#}
+{#                                            d.add(405, 4, '关键词审核', '{% url 'keyword_list' %}', "", 'page');#}
+{##}
+{#                                            d.add(5, 0, '系统配置管理');#}
+{#                                            d.add(501, 5, '财务类型', '{% url 'finType_list' %}', "", 'page');#}
+{#                                            d.add(502, 5, '服务类型', '{% url 'sertype_list' %}', "", 'page');#}
+{#                                            d.add(503, 5, '服务年限', '{% url 'service_year' %}', "", 'page');#}
+{#                                            d.add(504, 5, 'app 类型', '{% url 'app_edit' %}', "", 'page');#}
+{#                                            d.add(505, 5, '客户类型', '{% url 'customerType_list' %}', "", 'page');#}
+{#                                            d.add(506, 5, '证件类型', '{% url 'license_list' %}', "", 'page');#}
+{#                                            d.add(507, 5, '优惠类型', '{% url 'discount_list' %}', "", 'page');#}
+{#                                            d.add(6, 0, '个人中心');#}
+{#                                            d.add(601, 6, '个人资料修改', '{% url 'self_user_edit' %}', "", 'page');#}
+{#                                            d.add(602, 6, '修改密码', '{% url 'password' %}', "", 'page');#}
+{#                                            document.writeln(d);#}
+{#                                        </script>#}
+                                        <div class="dtree">
+                                            <div class="dTreeNode"><img id="id0" src="{% static 'images/dtree/openfoldericon.png' %}"
+                                                                        alt=""> <strong>代理商管理系统</strong></div>
+                                            <div id="dd0" class="clip" style="display:block;">
+                                                <div class="dTreeNode"><a href="javascript: d.o(1);"><img id="jd1"
+                                                                                                          src="{% static 'images/dtree/minus.gif' %}"
+                                                                                                          alt=""></a><img
+                                                        id="id1" src="{% static 'images/dtree/folderopen.gif' %}" alt=""><a
+                                                        href="javascript: d.o(1);" class="node">代理商管理</a></div>
+                                                <div id="dd1" class="clip" style="display:block;">
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/line.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/join.gif' %}" alt=""><img id="id2"
+                                                                                                    src="{% static 'images/dtree/page.gif' %}"
+                                                                                                    alt=""><a id="sd2"
+                                                                                                              class="node"
+                                                                                                              href="{% url 'keyword_add' %}"
+                                                                                                              target="page"
+                                                                                                              onmouseover="window.status='关键词申请';return true;"
+                                                                                                              onmouseout="window.status='';return true;"
+                                                                                                              onclick="javascript: d.s(2);">关键词申请</a>
+                                                    </div>
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/line.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/join.gif' %}" alt=""><img id="id3"
+                                                                                                    src="{% static 'images/dtree/page.gif' %}"
+                                                                                                    alt=""><a id="sd3"
+                                                                                                              class="node"
+                                                                                                              href="{% url 'keyword_check' %}"
+                                                                                                              target="page"
+                                                                                                              onmouseover="window.status='关键词申请管理';return true;"
+                                                                                                              onmouseout="window.status='';return true;"
+                                                                                                              onclick="javascript: d.s(3);">关键词申请管理</a>
+                                                    </div>
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/line.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/join.gif' %}" alt=""><img id="id4"
+                                                                                                    src="{% static 'images/dtree/page.gif' %}"
+                                                                                                    alt=""><a id="sd4"
+                                                                                                              class="node"
+                                                                                                              href="{% url 'customer_list' %}"
+                                                                                                              target="page"
+                                                                                                              onmouseover="window.status='代理商客户管理';return true;"
+                                                                                                              onmouseout="window.status='';return true;"
+                                                                                                              onclick="javascript: d.s(4);">代理商客户管理</a>
+                                                    </div>
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/line.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/join.gif' %}" alt=""><img id="id5"
+                                                                                                    src="{% static 'images/dtree/page.gif' %}"
+                                                                                                    alt=""><a id="sd5"
+                                                                                                              class="node"
+                                                                                                              href="{% url 'customerPay_list' %}"
+                                                                                                              target="page"
+                                                                                                              onmouseover="window.status='代理商预付款';return true;"
+                                                                                                              onmouseout="window.status='';return true;"
+                                                                                                              onclick="javascript: d.s(5);">代理商预付款</a>
+                                                    </div>
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/line.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/joinbottom.gif' %}" alt=""><img id="id6"
+                                                                                                          src="{% static 'images/dtree/page.gif' %}"
+                                                                                                          alt=""><a
+                                                            id="sd6" class="node" href="{% url 'log_list' %}"
+                                                            target="page"
+                                                            onmouseover="window.status='操作日志';return true;"
+                                                            onmouseout="window.status='';return true;"
+                                                            onclick="javascript: d.s(6);">操作日志</a></div>
+                                                </div>
+                                                <div class="dTreeNode"><a href="javascript: d.o(7);"><img id="jd7"
+                                                                                                          src="{% static 'images/dtree/minus.gif' %}"
+                                                                                                          alt=""></a><img
+                                                        id="id7" src="{% static 'images/dtree/folderopen.gif' %}" alt=""><a
+                                                        href="javascript: d.o(7);" class="node">门户管理</a></div>
+                                                <div id="dd7" class="clip" style="display:block;">
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/line.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/joinbottom.gif' %}" alt=""><img id="id8"
+                                                                                                          src="{% static 'images/dtree/page.gif' %}"
+                                                                                                          alt=""><a
+                                                            id="sd8" class="node" href="{% url 'website_list' %}"
+                                                            target="page"
+                                                            onmouseover="window.status='门户管理';return true;"
+                                                            onmouseout="window.status='';return true;"
+                                                            onclick="javascript: d.s(8);">门户管理</a></div>
+                                                </div>
+                                                <div class="dTreeNode"><a href="javascript: d.o(9);"><img id="jd9"
+                                                                                                          src="{% static 'images/dtree/minus.gif' %}"
+                                                                                                          alt=""></a><img
+                                                        id="id9" src="{% static 'images/dtree/folderopen.gif' %}" alt=""><a
+                                                        href="javascript: d.o(9);" class="node">报表管理</a></div>
+                                                <div id="dd9" class="clip" style="display:block;">
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/line.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/joinbottom.gif' %}" alt=""><img id="id10"
+                                                                                                          src="{% static 'images/dtree/page.gif' %}"
+                                                                                                          alt=""><a
+                                                            id="sd10" class="node" href="{% url 'report_list' %}"
+                                                            target="page"
+                                                            onmouseover="window.status='报表管理';return true;"
+                                                            onmouseout="window.status='';return true;"
+                                                            onclick="javascript: d.s(10);">报表管理</a></div>
+                                                </div>
+                                                <div class="dTreeNode"><a href="javascript: d.o(11);"><img id="jd11"
+                                                                                                           src="{% static 'images/dtree/page.gif' %}"
+                                                                                                           alt=""></a><img
+                                                        id="id11" src="{% static 'images/dtree/folderopen.gif' %}" alt=""><a
+                                                        href="javascript: d.o(11);" class="node">系统管理</a></div>
+                                                <div id="dd11" class="clip" style="display:block;">
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/line.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/join.gif' %}" alt=""><img id="id12"
+                                                                                                    src="{% static 'images/dtree/page.gif' %}"
+                                                                                                    alt=""><a id="sd12"
+                                                                                                              class="node"
+                                                                                                              href="{% url 'org_finace' %}"
+                                                                                                              target="page"
+                                                                                                              onmouseover="window.status='财务管理';return true;"
+                                                                                                              onmouseout="window.status='';return true;"
+                                                                                                              onclick="javascript: d.s(12);">财务管理</a>
+                                                    </div>
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/line.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/join.gif' %}" alt=""><img id="id13"
+                                                                                                    src="{% static 'images/dtree/page.gif' %}"
+                                                                                                    alt=""><a id="sd13"
+                                                                                                              class="node"
+                                                                                                              href="{% url 'org_role_index' %}"
+                                                                                                              target="page"
+                                                                                                              onmouseover="window.status='角色管理';return true;"
+                                                                                                              onmouseout="window.status='';return true;"
+                                                                                                              onclick="javascript: d.s(13);">角色管理</a>
+                                                    </div>
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/line.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/join.gif' %}" alt=""><img id="id14"
+                                                                                                    src="{% static 'images/dtree/page.gif' %}"
+                                                                                                    alt=""><a id="sd14"
+                                                                                                              class="node"
+                                                                                                              href="{% url 'org_menu_index' %}"
+                                                                                                              target="page"
+                                                                                                              onmouseover="window.status='菜单管理';return true;"
+                                                                                                              onmouseout="window.status='';return true;"
+                                                                                                              onclick="javascript: d.s(14);">菜单管理</a>
+                                                    </div>
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/line.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/join.gif' %}" alt=""><img id="id15"
+                                                                                                    src="{% static 'images/dtree/page.gif' %}"
+                                                                                                    alt=""><a id="sd15"
+                                                                                                              class="node"
+                                                                                                              href="{% url 'org_user_index' %}"
+                                                                                                              target="page"
+                                                                                                              onmouseover="window.status='用户管理';return true;"
+                                                                                                              onmouseout="window.status='';return true;"
+                                                                                                              onclick="javascript: d.s(15);">用户管理</a>
+                                                    </div>
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/line.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/joinbottom.gif' %}" alt=""><img id="id16"
+                                                                                                          src="{% static 'images/dtree/page.gif' %}"
+                                                                                                          alt=""><a
+                                                            id="sd16" class="node"
+                                                            href="{% url 'keyword_list' %}" target="page"
+                                                            onmouseover="window.status='关键词审核';return true;"
+                                                            onmouseout="window.status='';return true;"
+                                                            onclick="javascript: d.s(16);">关键词审核</a></div>
+                                                </div>
+                                                <div class="dTreeNode"><a href="javascript: d.o(17);"><img id="jd17"
+                                                                                                           src="{% static 'images/dtree/minus.gif' %}"
+                                                                                                           alt=""></a><img
+                                                        id="id17" src="{% static 'images/dtree/folderopen.gif' %}" alt=""><a
+                                                        href="javascript: d.o(17);" class="node">系统配置管理</a></div>
+                                                <div id="dd17" class="clip" style="display:block;">
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/line.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/join.gif' %}" alt=""><img id="id18"
+                                                                                                    src="{% static 'images/dtree/page.gif' %}"
+                                                                                                    alt=""><a id="sd18"
+                                                                                                              class="node"
+                                                                                                              href="{% url 'finType_list' %}"
+                                                                                                              target="page"
+                                                                                                              onmouseover="window.status='财务类型';return true;"
+                                                                                                              onmouseout="window.status='';return true;"
+                                                                                                              onclick="javascript: d.s(18);">财务类型</a>
+                                                    </div>
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/line.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/join.gif' %}" alt=""><img id="id19"
+                                                                                                    src="{% static 'images/dtree/page.gif' %}"
+                                                                                                    alt=""><a id="sd19"
+                                                                                                              class="node"
+                                                                                                              href="{% url 'sertype_list' %}"
+                                                                                                              target="page"
+                                                                                                              onmouseover="window.status='服务类型';return true;"
+                                                                                                              onmouseout="window.status='';return true;"
+                                                                                                              onclick="javascript: d.s(19);">服务类型</a>
+                                                    </div>
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/line.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/join.gif' %}" alt=""><img id="id20"
+                                                                                                    src="{% static 'images/dtree/page.gif' %}"
+                                                                                                    alt=""><a id="sd20"
+                                                                                                              class="node"
+                                                                                                              href="{% url 'service_year' %}"
+                                                                                                              target="page"
+                                                                                                              onmouseover="window.status='服务年限';return true;"
+                                                                                                              onmouseout="window.status='';return true;"
+                                                                                                              onclick="javascript: d.s(20);">服务年限</a>
+                                                    </div>
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/line.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/join.gif' %}" alt=""><img id="id21"
+                                                                                                    src="{% static 'images/dtree/page.gif' %}"
+                                                                                                    alt=""><a id="sd21"
+                                                                                                              class="node"
+                                                                                                              href="{% url 'app_edit' %}"
+                                                                                                              target="page"
+                                                                                                              onmouseover="window.status='app 类型';return true;"
+                                                                                                              onmouseout="window.status='';return true;"
+                                                                                                              onclick="javascript: d.s(21);">app
+                                                        类型</a></div>
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/line.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/join.gif' %}" alt=""><img id="id22"
+                                                                                                    src="{% static 'images/dtree/page.gif' %}"
+                                                                                                    alt=""><a id="sd22"
+                                                                                                              class="node"
+                                                                                                              href="{% url 'customerType_list' %}"
+                                                                                                              target="page"
+                                                                                                              onmouseover="window.status='客户类型';return true;"
+                                                                                                              onmouseout="window.status='';return true;"
+                                                                                                              onclick="javascript: d.s(22);">客户类型</a>
+                                                    </div>
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/line.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/join.gif' %}" alt=""><img id="id23"
+                                                                                                    src="{% static 'images/dtree/page.gif' %}"
+                                                                                                    alt=""><a id="sd23"
+                                                                                                              class="node"
+                                                                                                              href="{% url 'license_list' %}"
+                                                                                                              target="page"
+                                                                                                              onmouseover="window.status='证件类型';return true;"
+                                                                                                              onmouseout="window.status='';return true;"
+                                                                                                              onclick="javascript: d.s(23);">证件类型</a>
+                                                    </div>
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/line.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/joinbottom.gif' %}" alt=""><img id="id24"
+                                                                                                          src="{% static 'images/dtree/page.gif' %}"
+                                                                                                          alt=""><a
+                                                            id="sd24" class="node"
+                                                            href="{% url 'discount_list' %}"
+                                                            target="page"
+                                                            onmouseover="window.status='优惠类型';return true;"
+                                                            onmouseout="window.status='';return true;"
+                                                            onclick="javascript: d.s(24);">优惠类型</a></div>
+                                                </div>
+                                                <div class="dTreeNode"><a href="javascript: d.o(25);"><img id="jd25"
+                                                                                                           src="{% static 'images/dtree/minusbottom.gif' %}"
+                                                                                                           alt=""></a><img
+                                                        id="id25" src="{% static 'images/dtree/folderopen.gif' %}" alt=""><a
+                                                        href="javascript: d.o(25);" class="node">个人中心</a></div>
+                                                <div id="dd25" class="clip" style="display:block;">
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/empty.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/join.gif' %}" alt=""><img id="id26"
+                                                                                                    src="{% static 'images/dtree/page.gif' %}"
+                                                                                                    alt=""><a id="sd26"
+                                                                                                              class="node"
+                                                                                                              href="{% url 'self_user_edit' %}"
+                                                                                                              target="page"
+                                                                                                              onmouseover="window.status='个人资料修改';return true;"
+                                                                                                              onmouseout="window.status='';return true;"
+                                                                                                              onclick="javascript: d.s(26);">个人资料修改</a>
+                                                    </div>
+                                                    <div class="dTreeNode"><img src="{% static 'images/dtree/empty.gif' %}" alt=""><img
+                                                            src="{% static 'images/dtree/joinbottom.gif' %}" alt=""><img id="id27"
+                                                                                                          src="{% static 'images/dtree/page.gif' %}"
+                                                                                                          alt=""><a
+                                                            id="sd27" class="node"
+                                                            href="{% url 'password' %}" target="page"
+                                                            onmouseover="window.status='修改密码';return true;"
+                                                            onmouseout="window.status='';return true;"
+                                                            onclick="javascript: d.s(27);">修改密码</a></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="31"><img src="{% static 'images/menu_foot.gif' %}" width="175" height="31">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <iframe src="{% url 'self_user_info' %}" width="100%" height="100%" frameborder="0"
+                                scrolling="no" name="page"></iframe>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
