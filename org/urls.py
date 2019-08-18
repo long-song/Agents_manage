@@ -26,8 +26,10 @@ urlpatterns = [
     path('user_add/', views.user_add, name='user_add'),  # 新增用户
     path('user_edit/<int:u_edit>', views.user_edit, name='user_edit'),  # 用户信息修改
     path('user_delete/<int:u_delete>', views.user_delete, name='user_delete'),  # 删除用户
-    path('user_off/', views.user_off, name='user_off'),  # 禁用用户
-    path('user_pay/', views.user_pay, name='user_pay'),  # 用户预付款
+    path('user_off/<int:u_off>', views.user_off, name='user_off'),  # 禁用用户
+    path('user_pay/<int:u_pay>', views.user_pay, name='user_pay'),  # 用户预付款
+    # path('user_pay/<int:u_pay>', views.user_pay, name='user_pay1'),  # 用户预付款
+    path('user_pay_find/<int:u_pay_find>', views.user_pay_find, name='user_pay_find'),  # 用户预付款查找
 
     path('org_finace/', views.org_finace, name='org_finace'),  # 访问系统管理的财务管理路由
 

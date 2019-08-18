@@ -67,9 +67,9 @@
                         <th align="center">启用状态</th>
                         <TD class="BGCgray">
                             {% if menu_one.menu_state == 1 %}
-                                <input type="radio" checked/>启用<input type="radio"/>禁用
+                                <input type="radio" name="state" checked/>启用<input type="radio" name="state" />禁用
                             {% else %}
-                                <input type="radio"/>启用<input type="radio" checked/>禁用
+                                <input type="radio" name="state" />启用<input type="radio" name="state" checked/>禁用
 
                             {% endif %}
                         </TD>
@@ -77,13 +77,13 @@
                     <TR>
                         <th align="center">启用状态</th>
                         <TD class="BGCgray">
-                            <input type="text" value="{{ menu_one.menu_state1 }}"/>
+                            <input type="text" value="{{ menu_one.menu_state1 }}" readonly/>
                         </TD>
                     </TR>
                     <TR>
                         <th align="center"><span class="BGCgray">菜单简介</span></th>
                         <TD class="BGCgray">
-                            <textarea cols="40" rows="6">{{ menu_one.menu_intro1 }}</textarea>
+                            <textarea cols="40" rows="6" readonly>{{ menu_one.menu_intro1 }}</textarea>
                         </TD>
                     </TR>
                 </table>

@@ -5,6 +5,13 @@
     <title></title>
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <style>
+        #save a {
+            color: black;
+            text-decoration: none;
+
+        }
+    </style>
 </head>
 <body>
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="3">
@@ -28,7 +35,7 @@
                                 src="{% static 'images/btn_left.gif' %}" align="absmiddle"> 后退</a>
                         <a href="#" class="barBtn" onClick="javascript:history.go(+1);"><img
                                 src="{% static 'images/btn_right.gif' %}" align="absmiddle"> 前进</a>
-                        <a href="#" class="barBtn"><img src="{% static 'images/btn_refresh.gif' %}" align="absmiddle">
+                        <a href="{% url 'role_add' %}" class="barBtn"><img src="{% static 'images/btn_refresh.gif' %}" align="absmiddle">
                             刷新</a>
                     </td>
                 </tr>
@@ -38,12 +45,12 @@
     <tr>
         <td height="100%" valign="top">
             <form action="{% url 'role_add' %}" method="post">
+                {% csrf_token %}
                 <div style="overflow:auto;height:100%; width:100%">
-
                     <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
                         <TR>
                             <th width="20%" align="center">角色名称</th>
-                            <TD class="BGCgray"><input type="text" name="role_name"/></TD>
+                            <TD class="BGCgray"><input type="text" name="role_name"/> {{ name }}</TD>
                         </TR>
                         <TR>
                             <th align="center">启用状态</th>
@@ -59,13 +66,14 @@
                             </TD>
                         </TR>
                     </table>
-                    <div style="width:100%; text-align:center; padding:5px">
+                    <div style="width:100%; text-align:center; padding:5px" id="save">
                         <BUTTON style="HEIGHT:25px"
                                 onClick="javascript:if (confirm('保存信息？')) location.href='role-list.html';else return;">
                             <img src="{% static 'images/btn_save.gif' %}" width="16" height="16" align="absmiddle"> 保存
                         </BUTTON>
                         <BUTTON style="HEIGHT:25px" onClick="history.back()"><img
-                                src="{% static 'images/btn_back.gif' %}" width="16" height="16" align="absmiddle"> 返回
+                                src="{% static 'images/btn_back.gif' %}" width="16" height="16" align="absmiddle">
+                            <a href="{% url 'org_role_index' %}">返回</a>
                         </BUTTON>
                     </div>
                 </div>

@@ -5,6 +5,12 @@
     <title></title>
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    {#    <script>#}
+    {#        function disable() {#}
+    {#            document.getElementById('disa').innerText='禁用'#}
+    {#        }#}
+    {#    </script>#}
+
 </head>
 <body>
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="3">
@@ -75,6 +81,7 @@
     <tr>
         <td height="100%" valign="top">
             <div style="overflow:auto;height:100%; width:100%">
+
                 <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
                     <TR>
                         <th align="center"><input type="checkbox" name="checkbox" id="checkbox"></th>
@@ -99,27 +106,33 @@
                                     修改
                                 </BUTTON>
                                 <BUTTON style="height:21px; font-size:12px"
-                                        onClick="javascript:if (confirm('删除该菜单？')) location.href='{% url 'user_delete' u_delete=user.user_id %}';else return;">删除
+                                        onClick="javascript:if (confirm('删除该菜单？')) location.href='{% url 'user_delete' u_delete=user.user_id %}';else return;">
+                                    删除
                                 </BUTTON>
+                                {#                                <form action="{% url 'user_off' u_off=user.user_id %}" method="post">#}
                                 <BUTTON style="height:21px; font-size:12px"
-                                        onClick="javascript:if (confirm('确认操作？')) alert('操作成功！');">禁用
+                                        id="disable"
+                                        onClick="location.href='{% url 'user_off' u_off=user.user_id %}'">
+                                    禁用
                                 </BUTTON>
+                                {#                                </form>#}
                                 <BUTTON style="height:21px; font-size:12px"
-                                        onClick="location.href='{% url 'user_pay' %}'">
+                                        onClick="location.href='{% url 'user_pay' u_pay=user.user_id %}'">
                                     预付款
                                 </BUTTON>
                             </TD>
                         </TR>
+                    {% empty %}
+                        <TR>
+                            <TD colspan="7" align="center">无任何信息</TD>
+                        </TR>
                     {% endfor %}
-
-
                 </table>
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td width="20%" height="25">
                             <table border="0" cellspacing="0" cellpadding="3">
                                 <tr>
-
                                     {% if user_role.has_previous %}
                                         {% for foo in user_role %}
                                             {% if forloop.counter == 1 %}
@@ -128,7 +141,6 @@
                                                         border="0" title="首页"></a></td>
                                             {% endif %}
                                         {% endfor %}
-
                                         <td>
                                             <a href="{% url 'org_user_index1' o_user=user_role.previous_page_number %}"><img
                                                     src="{% static 'images/prev.gif' %}" width="16" height="16"
@@ -139,10 +151,11 @@
                                         <td><a href="{% url 'org_user_index1' o_user=user_role.next_page_number %}"><img
                                                 src="{% static 'images/next.gif' %}" width="16" height="16"
                                                 border="0" title="下一页"></a></td>
-                                         <td><a href="{% url 'org_user_index1' o_user=user_role.paginator.num_pages %}"><img
-                                            src="{% static 'images/prev_end.gif' %}" width="16"
-                                            height="16"
-                                            border="0" title="尾页"></a></td>
+                                        <td>
+                                            <a href="{% url 'org_user_index1' o_user=user_role.paginator.num_pages %}"><img
+                                                    src="{% static 'images/prev_end.gif' %}" width="16"
+                                                    height="16"
+                                                    border="0" title="尾页"></a></td>
                                     {% endif %}
                                     {#                                       尾页#}
 

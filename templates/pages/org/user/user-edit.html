@@ -1,10 +1,87 @@
 {% load static %}
+
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <style>
+        #disable a {
+            color: black;
+            text-decoration: none;
+        }
+    </style>
+
+    <script type="text/javascript">
+        function password() {    //密码判断
+            var reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@!.%*#?&])[A-Za-z\d$@.!%*#?&]{8,}$/;
+            var str = document.getElementById('user_password').value;
+            if (reg.test(str)) {
+                document.getElementById('password_tip').innerHTML = ''
+            }
+            else {
+                document.getElementById('password_tip').innerHTML = '<font color="red">至少8个字符，至少1个字母，1个数字和1个特殊字符</font>'
+
+            }
+        }
+
+        function name() {  //姓名判断
+            var reg = /^[\u4E00-\u9FA5A-Za-z]+$/;
+            var str = document.getElementById('user_realname').value;
+            if (reg.test(str)) {
+                document.getElementById('name_tip').innerHTML = ''
+            }
+            else {
+                document.getElementById('name_tip').innerHTML = '<font color="red">只能输入中文和英文</font>'
+            }
+        }
+
+        function Idcard() {    //身份判断
+            var reg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+            var str = document.getElementById('user_Idcard').value;
+            if (reg.test(str)) {
+                document.getElementById('Idcard_tip').innerHTML = ''
+            }
+            else {
+                document.getElementById('Idcard_tip').innerHTML = '<font color="red">支持 15 位和 18 位身份证号</font>'
+            }
+        }
+
+        function sex() {    //身份判断
+            var reg = /^(男|女)$/;
+            var str = document.getElementById('user_sex').value;
+            if (reg.test(str)) {
+                document.getElementById('sex_tip').innerHTML = ''
+            }
+            else {
+                document.getElementById('sex_tip').innerHTML = '<font color="red">男  或  女</font>'
+            }
+        }
+
+        function email() {    //邮箱判断
+            var reg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+            var str = document.getElementById('user_email').value;
+            if (reg.test(str)) {
+                document.getElementById('email_tip').innerHTML = ''
+            }
+            else {
+                document.getElementById('email_tip').innerHTML = '<font color="red">请填写正确邮箱</font>'
+            }
+        }
+
+        function phone() {    //手机号判断
+            var reg = /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/;
+            var str = document.getElementById('user_phone').value;
+            if (reg.test(str)) {
+                document.getElementById('phone_tip').innerHTML = ''
+            }
+            else {
+                document.getElementById('phone_tip').innerHTML = '<font color="red">请填写正确手机号</font>'
+            }
+        }
+    </script>
+
 </head>
 <body>
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="3">
@@ -39,41 +116,77 @@
         <td height="100%" valign="top">
             <form action="{% url 'user_edit' u_edit=user.user_id %}" method="post">
                 {% csrf_token %}
-                <div style="overflow:auto;height:100%; width:100%">
+                <div style="overflow:auto;height:100%; width:100%" id="edit_js">
                     <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
                         <TR>
                             <th width="20%" align="center">登录账号</th>
-                            <TD class="BGCgray"><input type="text" name="user_logname"
-                                                       value="{{ user_one.user.user_logname }}" readonly/></TD>
+                            <TD class="BGCgray"><input type="text" id="user_logname" onblur="logname()"
+                                                       name="user_logname"
+                                                       value="{{ user_one.user.user_logname }}"/>{{ user_logname }}
+                                {#                                <span class="logname_tip">提示信息</span>#}
+
+                            </TD>
                         </TR>
                         <TR>
                             <th width="20%" align="center">登录密码</th>
-                            <TD class="BGCgray"><input type="password" name="user_password"
-                                                       value="{{ user_one.user.user_password }}"/></TD>
+                            <TD class="BGCgray"><input type="password" id="user_password" onblur="password()"
+                                                       name="user_password"
+                                                       value="{{ user_one.user.user_password }}"/>{{ user_password }}
+                                <span id="password_tip"></span>
+
+                            </TD>
                         </TR>
                         <TR>
                             <th width="20%" align="center">真实姓名</th>
-                            <TD class="BGCgray"><input type="text" name="user_realname" value="{{ user_one.user.user_realname }}"/></TD>
+                            <TD class="BGCgray"><input type="text" id="user_realname" onblur="name()"
+                                                       name="user_realname"
+                                                       value="{{ user_one.user.user_realname }}"/>{{ user_realname }}
+                                <span id="name_tip"></span>
+
+                            </TD>
                         </TR>
                         <TR>
                             <th align="center">身份证</th>
-                            <TD width="80%" class="BGCgray"><input type="text" name="user_Idcard" value="{{ user_one.user.user_idcard }}"/></TD>
+                            <TD width="80%" class="BGCgray"><input type="text" id="user_Idcard" onblur="Idcard()"
+                                                                   name="user_Idcard"
+                                                                   value="{{ user_one.user.user_idcard }}"/>{{ user_Idcard }}
+                                <span id="Idcard_tip"></span>
+
+                            </TD>
                         </TR>
                         <TR>
                             <th align="center">性别</th>
-                            <TD width="80%" class="BGCgray"><input type="text" name="user_sex" value="{{ user_one.user.user_sex }}"/></TD>
+                            <TD width="80%" class="BGCgray"><input type="text" id="user_sex" onblur="sex()"
+                                                                   name="user_sex"
+                                                                   value="{{ user_one.user.user_sex }}"/>{{ user_sex }}
+                                <span id="sex_tip"></span>
+                            </TD>
                         </TR>
                         <TR>
                             <th align="center">地址</th>
-                            <TD width="80%" class="BGCgray"><input type="text" name="user_addres" value="{{ user_one.user.user_address }}"/></TD>
+                            <TD width="80%" class="BGCgray"><input type="text" name="user_addres"
+                                                                   value="{{ user_one.user.user_address }}"/></TD>
+                            {#                            <span class="error_tip">提示信息</span>#}
                         </TR>
                         <TR>
                             <th align="center">邮箱</th>
-                            <TD width="80%" class="BGCgray"><input type="text" name="user_email" value="{{ user_one.user.user_email }}"/></TD>
+                            <TD width="80%" class="BGCgray"><input type="text" id="user_email" onblur="email()"
+                                                                   name="user_email"
+                                                                   value="{{ user_one.user.user_email }}"/>
+                                <span id="email_tip"></span>
+
+                            </TD>
+
                         </TR>
                         <TR>
                             <th align="center">联系电话</th>
-                            <TD width="80%" class="BGCgray"><input type="text" name="user_phone" value="{{ user_one.user.user_phone }}"/></TD>
+                            <TD width="80%" class="BGCgray"><input type="text" id="user_phone" onblur="phone()"
+                                                                   name="user_phone"
+                                                                   value="{{ user_one.user.user_phone }}"/>
+                                <span id="phone_tip"></span>
+
+                            </TD>
+
                         </TR>
                         <TR>
                             <th align="center">启用状态</th>
@@ -114,7 +227,7 @@
                                     src="{% static 'images/btn_save.gif' %}" width="16" height="16" align="absmiddle">
                             保存
                         </BUTTON>
-                        <BUTTON style="HEIGHT:25px" onClick="history.back()"><img
+                        <BUTTON style="HEIGHT:25px" onClick="history.back()" id="disable"><img
                                 src="{% static 'images/btn_back.gif' %}"
                                 width="16" height="16" align="absmiddle">
                             <a href="{% url 'org_user_index' %}">返回</a>

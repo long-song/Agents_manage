@@ -93,6 +93,16 @@ class Menu(models.Model):
         else:
             return self.menu_intro
 
+    def menu_url1(self):
+        """
+        地址
+        :return:
+        """
+        if self.menu_url == None:
+            return '无'
+        else:
+            return self.menu_intro
+
 
 class Role(models.Model):
     role_id = models.AutoField(primary_key=True)
