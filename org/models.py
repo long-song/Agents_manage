@@ -24,7 +24,15 @@ class User(models.Model):
         db_table = 'user'
     def __str__(self):
         return self.user_realname
-
+    def user_state1(self):
+        """
+        判断状态
+        :return:
+        """
+        if self.user_state == 1:
+            return '启用'
+        else:
+            return '禁用'
 
 class UserRole(models.Model):
     user = models.ForeignKey('User', models.DO_NOTHING,primary_key=True)
@@ -51,6 +59,7 @@ class Menu(models.Model):
     class Meta:
         managed = False
         db_table = 'menu'
+
 
 
 class Role(models.Model):
