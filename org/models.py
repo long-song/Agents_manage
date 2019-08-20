@@ -64,7 +64,15 @@ class Role(models.Model):
         managed = False
         db_table = 'role'
 
-
+    def role_state1(self):
+        """
+        判断状态  1 启用 0 禁用
+        :return:
+        """
+        if self.role_state == 1:
+            return '启用'
+        else:
+            return '禁用'
 class RoleMenu(models.Model):
     role = models.ForeignKey(Role, on_delete=models.CASCADE)
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
