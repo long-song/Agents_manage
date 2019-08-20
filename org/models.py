@@ -27,7 +27,7 @@ class User(models.Model):
 
 
 class UserRole(models.Model):
-    user = models.ForeignKey('User', models.DO_NOTHING)
+    user = models.ForeignKey('User', models.DO_NOTHING,primary_key=True)
     role = models.ForeignKey('Role', models.DO_NOTHING)
 
     class Meta:
