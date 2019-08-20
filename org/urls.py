@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from org import views
-
+from org.views import *
 urlpatterns = [
     path('role_index/', views.org_role_index, name='org_role_index'),  # 角色首页
     path('<int:o_role>', views.org_role_index, name='org_role_index1'),  # 首页分页
@@ -23,7 +23,7 @@ urlpatterns = [
     path('org_user_index/', views.org_user_index, name='org_user_index'),  # 用户首页
     path('org_user_index/<int:o_user>', views.org_user_index, name='org_user_index1'),  # 用户分页路由
     path('user_find/<int:u_find>', views.user_find, name='user_find'),  # 查找用户信息
-    path('user_add/', views.user_add, name='user_add'),  # 新增用户
+    path('user_add/', User_Add.as_view(), name='user_add'),  # 新增用户
     path('user_edit/<int:u_edit>', views.user_edit, name='user_edit'),  # 用户信息修改
     path('user_delete/<int:u_delete>', views.user_delete, name='user_delete'),  # 删除用户
     path('user_off/<int:u_off>', views.user_off, name='user_off'),  # 禁用用户

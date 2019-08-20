@@ -5,12 +5,6 @@
     <title></title>
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
-    {#    <script>#}
-    {#        function disable() {#}
-    {#            document.getElementById('disa').innerText='禁用'#}
-    {#        }#}
-    {#    </script>#}
-
 </head>
 <body>
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="3">
@@ -42,18 +36,15 @@
                             href="{% url 'org_user_index' %}"
                             class="barBtn"><img
                             src="{% static 'images/btn_refresh.gif' %}" align="absmiddle"> 刷新</a></td>
+
                 </tr>
             </table>
         </td>
     </tr>
     <tr>
         <td style="height:30px; background-color:#bddbff; border-bottom:1px solid #cfd8e0;">
-            {#            {% for user in user_role %}#}
             <form action="{% url 'user_find' u_find=1 %}" method="post">
                 {% csrf_token %}
-
-                {#            {% endfor %}#}
-
                 <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
                     <TR>
                         <th width="10%" align="center">用户名称</th>
@@ -109,13 +100,11 @@
                                         onClick="javascript:if (confirm('删除该菜单？')) location.href='{% url 'user_delete' u_delete=user.user_id %}';else return;">
                                     删除
                                 </BUTTON>
-                                {#                                <form action="{% url 'user_off' u_off=user.user_id %}" method="post">#}
                                 <BUTTON style="height:21px; font-size:12px"
                                         id="disable"
                                         onClick="location.href='{% url 'user_off' u_off=user.user_id %}'">
                                     禁用
                                 </BUTTON>
-                                {#                                </form>#}
                                 <BUTTON style="height:21px; font-size:12px"
                                         onClick="location.href='{% url 'user_pay' u_pay=user.user_id %}'">
                                     预付款

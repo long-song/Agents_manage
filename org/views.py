@@ -1,4 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
+from django.views.generic import View
+
 from .models import *
 from proxy.models import User
 from django.core.paginator import Paginator
@@ -324,14 +326,103 @@ def user_find(request, u_find):
         return render(request, 'pages/org/user/user-list.html', {'user_role': page, 'count': paginator})
 
 
-def user_add(request):
-    """
-    新增用户
-    :param request:
-    :return:
-    """
+class User_Add(View):
+    """新增用户"""
 
-    return render(request, 'pages/org/user/user-add.html')
+    def get(self, request):
+        """
+        get请求
+        :param request:
+        :return:
+        """
+        role = Role.objects.all()  # 角色
+        return render(request, 'pages/org/user/user-add.html', {'role': role})
+
+    def post(self, request):
+        """
+        POST请求
+        :param request:
+        :return:
+        """
+        user_logname = request.POST.get('user_logname')  # 获取到用户的登录账号
+
+        try:
+            User.objects.get(user_logname=user_logname)
+        except:
+            user_password = request.POST.get('user_password')  # 获取到用户的登录密码
+            password_re = re.search('^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@!.%*#?&])[A-Za-z\d$@.!%*#?&]{8,}$', user_password)
+            if password_re:
+                user_realname = request.POST.get('user_realname')  # 获取到用户的名字
+                realname_re = re.search('^[\u4E00-\u9FA5A-Za-z]+$', user_realname)
+                if realname_re:
+                    user_idcard = request.POST.get('user_Idcard')  # 获取到用户的身份
+                    try:
+                        User.objects.get(user_idcard=user_idcard)
+                    except:
+                        idacard_re = re.search(
+                            '^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^'
+                            '[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$',
+                            user_idcard)
+                        if idacard_re:
+                            user_sex = request.POST.get('user_sex')  # 获取到用户的性别
+                            user_address = request.POST.get('user_address')  # 获取到用户的地址
+                            try:
+                                User.objects.get(user_address=user_address)
+                            except:
+                                user_email = request.POST.get('user_email')  # 获取到用户的emial
+                                try:
+                                    User.objects.get(user_email=user_email)
+                                except:
+                                    email_re = re.search(
+                                        '^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$',
+                                        user_email)
+                                    if email_re:
+                                        user_phone = request.POST.get('user_phone')  # 获取到用户的联系电话
+                                        try:
+                                            User.objects.get(user_phone=user_phone)
+                                        except:
+                                            phone_re = re.search(
+                                                '^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$',
+                                                user_phone)
+                                            if phone_re:
+                                                user_sate = request.POST.get('user_sate')  # 启用状态
+                                                # UserRole.objects.create()  # 关联表
+                                                User.objects.create(user_logname=user_logname,
+                                                                    user_password=user_password,
+                                                                    user_realname=user_realname,
+                                                                    user_idcard=user_idcard, user_sex=user_sex,
+                                                                    user_address=user_address, user_email=user_email,
+                                                                    user_phone=user_phone, user_state=user_sate)
+                                                print(user_logname, user_password, user_realname, user_idcard,
+                                                      user_sex, user_address, user_email, user_phone,
+                                                      user_sate)
+
+                                                return redirect('/org/org_user_index/')
+                                            else:
+                                                return render(request, 'pages/org/user/user-add.html',
+                                                              {"user_phone": '联系电话错误'})
+                                        else:
+                                            return render(request, 'pages/org/user/user-add.html',
+                                                          {"user_phon": '联系电话不能重复'})
+
+                                    else:
+                                        return render(request, 'pages/org/user/user-add.html', {"user_email": '邮箱错误'})
+                                else:
+                                    return render(request, 'pages/org/user/user-add.html', {"user_emai": '邮箱不能重复'})
+                            else:
+                                return render(request, 'pages/org/user/user-add.html', {"user_address": '地址不存在'})
+
+                        else:
+                            return render(request, 'pages/org/user/user-add.html', {"user_idcard": '证件号错误'})
+                    else:
+                        return render(request, 'pages/org/user/user-add.html', {"user_idcar": '证件号不能重复'})
+                else:
+                    return render(request, 'pages/org/user/user-add.html', {"user_realname": '名称错误'})
+            else:
+                return render(request, 'pages/org/user/user-add.html', {"user_password": '密码格式错误'})
+
+        else:
+            return render(request, 'pages/org/user/user-add.html', {"user_logname": '已存在'})
 
 
 def user_edit(request, u_edit):
@@ -424,19 +515,12 @@ def user_off(request, u_off):
     :param request:
     :return:
     """
-    if request.method == 'GET':
+    user_state = User.objects.get(user_id=u_off)
+    if user_state.user_state == 1:
+        user_state.user_state = 0
+        user_state.save()
         return redirect('/org/org_user_index/')
-        # user = User.objects.filter(user_state=u_off)
-        # # print(user.user_state)
-        # if user.user_state == 1:
-        #     user.user_state = 0
-        #     user.save()
-        #     return redirect('/org/org_user_index/')
     else:
-        # print(u_off)
-        user_state = UserRole.objects.filter(user__user_state=u_off)
-        for i in user_state:
-            print(i)
         return redirect('/org/org_user_index/')
 
 
