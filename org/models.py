@@ -83,7 +83,7 @@ class Role(models.Model):
         else:
             return '禁用'
 class RoleMenu(models.Model):
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE,primary_key=True)
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
 
     class Meta:
