@@ -1,10 +1,17 @@
 <html>
 <head>
     {% load static %}
+    {% load filters %}
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/jquery1.9.0.min.js' %}"></script>
+    <style>
+        a:hover {
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="3">
@@ -23,7 +30,8 @@
                     <td width="20" height="34"><img src="{% static 'images/main_headerL.gif' %}" width="20" height="34">
                     </td>
                     <td style="color:#90c8e8;"><img src="{% static 'images/icon_card.gif' %}" width="16" height="16"
-                                                    align="absmiddle">&nbsp;&nbsp;<strong>代理商客户管理</strong></td>
+                                                    align="absmiddle">&nbsp;&nbsp;<a
+                            href="{% url 'customer_list' %}" style="color: #90c8e8"><strong>代理商客户管理</strong></a></td>
                     <td align="right" class="white" style="padding-right:20px">
                         <a href="{% url 'customer_add' %}" class="barBtn"><img src="{% static 'images/5.png' %}"
                                                                                align="absmiddle"> 新增</a>
@@ -31,7 +39,8 @@
                                 src="{% static 'images/btn_left.gif' %}" align="absmiddle"> 后退</a>
                         <a href="#" class="barBtn" onClick="javascript:history.go(+1);"><img
                                 src="{% static 'images/btn_right.gif' %}" align="absmiddle"> 前进</a>
-                        <a href="#" class="barBtn"><img src="{% static 'images/btn_refresh.gif' %}" align="absmiddle">
+                        <a href="javascript:location.reload();" class="barBtn"><img
+                                src="{% static 'images/btn_refresh.gif' %}" align="absmiddle">
                             刷新</a>
                     </td>
                 </tr>
@@ -40,160 +49,222 @@
     </tr>
     <tr>
         <td style="height:30px; background-color:#bddbff; border-bottom:1px solid #cfd8e0;">
-            <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
-                <TR>
-                    <th width="10%" align="center">客户名称</th>
-                    <td width="20%" class="BGCgray"><input type="text" name="textfield" id="textfield"></td>
-                    <th width="10%" align="center">
-                        <BUTTON style="HEIGHT:25px"
-                                onClick="javascript:if (confirm('查询数据？')) location.href='#';else return;"><img
-                                src="{% static 'images/btn_search.gif' %}" width="16" height="16" align="absmiddle"> 查询
-                        </BUTTON>
-                    </th>
-                </TR>
-            </table>
+            <form action="{% url 'customer_find' %}" method="get">
+                <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
+                    <TR>
+                        <th width="10%" align="center">客户名称</th>
+                        <td width="20%" class="BGCgray">
+                            <input type="text" name="textfiled">
+                        </td>
+                        <th width="10%" align="center">
+                            <BUTTON style="HEIGHT:25px" class="find" type="submit"><img
+                                    src="{% static 'images/btn_search.gif' %}" width="16" height="16" align="absmiddle">
+                                查询
+                            </BUTTON>
+                        </th>
+                    </TR>
+                </table>
+            </form>
         </td>
     </tr>
     <tr>
         <td height="100%" valign="top">
             <div style="overflow:auto;height:100%; width:100%">
-                <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
-                    <TR>
-                        <th align="center"><input type="checkbox" name="checkbox" id="checkbox"></th>
-                        <th align="center">序号</th>
-                        <th align="center">客户名称</th>
-                        <th align="center">法人代表</th>
-                        <th align="center">注册时间</th>
-                        <th align="center">类型</th>
-                        <th align="center">状态</th>
-                        <th width="240px" align="center">操作</th>
-                    </TR>
-                    <TR>
-                        <TD align="center"><input type="checkbox" name="checkbox2" id="checkbox2"></TD>
-                        <TD align="center">1</TD>
-                        <TD align="center"><a href="customer-info.html">嘉顿实业</a></TD>
-                        <TD align="center">法人1</TD>
-                        <TD align="center">2012-01-02</TD>
-                        <TD align="center">企业</TD>
-                        <TD align="center">停用</TD>
-                        <TD align="center">
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript: location.href='{% url 'customer_edit' %}';">编辑
-                            </BUTTON>
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:if (confirm('确认操作？')) alert('操作成功！');else return;">启用
-                            </BUTTON>
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:location.href='{% url 'customer_charge' %}'">续费
-                            </BUTTON>
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:if (confirm('确认操作？')) alert('操作成功！');else return;">删除
-                            </BUTTON>
-                        </TD>
-                    </TR>
-                    <TR>
-                        <TD align="center"><input type="checkbox" name="checkbox2" id="checkbox2"></TD>
-                        <TD align="center">2</TD>
-                        <TD align="center">嘉顿实业</TD>
-                        <TD align="center">法人1</TD>
-                        <TD align="center">2012-01-02</TD>
-                        <TD align="center">企业</TD>
-                        <TD align="center">停用</TD>
-                        <TD align="center">
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript: location.href='{% url 'customer_edit' %}';">编辑
-                            </BUTTON>
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:if (confirm('确认操作？')) alert('操作成功！');else return;">启用
-                            </BUTTON>
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:location.href='{% url 'customer_charge' %}'">续费
-                            </BUTTON>
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:if (confirm('确认操作？')) alert('操作成功！');else return;">删除
-                            </BUTTON>
-                        </TD>
-                    </TR>
-                    <TR>
-                        <TD align="center"><input type="checkbox" name="checkbox2" id="checkbox2"></TD>
-                        <TD align="center">3</TD>
-                        <TD align="center">嘉顿实业</TD>
-                        <TD align="center">法人1</TD>
-                        <TD align="center">2012-01-02</TD>
-                        <TD align="center">企业</TD>
-                        <TD align="center">停用</TD>
-                        <TD align="center">
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript: location.href='{% url 'customer_edit' %}';">编辑
-                            </BUTTON>
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:if (confirm('确认操作？')) alert('操作成功！');else return;">启用
-                            </BUTTON>
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:location.href='{% url 'customer_charge' %}'">续费
-                            </BUTTON>
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:if (confirm('确认操作？')) alert('操作成功！');else return;">删除
-                            </BUTTON>
-                        </TD>
-                    </TR>
-                    <TR>
-                        <TD align="center"><input type="checkbox" name="checkbox2" id="checkbox2"></TD>
-                        <TD align="center">4</TD>
-                        <TD align="center">嘉顿实业</TD>
-                        <TD align="center">法人1</TD>
-                        <TD align="center">2012-01-02</TD>
-                        <TD align="center">企业</TD>
-                        <TD align="center">停用</TD>
-                        <TD align="center">
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript: location.href='{% url 'customer_edit' %}';">编辑
-                            </BUTTON>
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:if (confirm('确认操作？')) alert('操作成功！');else return;">启用
-                            </BUTTON>
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:location.href='{% url 'customer_charge' %}'">续费
-                            </BUTTON>
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:if (confirm('确认操作？')) alert('操作成功！');else return;">删除
-                            </BUTTON>
-                        </TD>
-                    </TR>
-                </table>
-                <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td width="20%" height="25">
-                            <table border="0" cellspacing="0" cellpadding="3">
-                                <tr>
-                                    <td><a href="#"><img src="{% static 'images/prev_top.gif' %}" width="16" height="16"
-                                                         border="0" title="首页"></a></td>
-                                    <td><a href="#"><img src="{% static 'images/prev.gif' %}" width="16" height="16"
-                                                         border="0" title="上一页"></a></td>
-                                    <td><a href="#"><img src="{% static 'images/next.gif' %}" width="16" height="16"
-                                                         border="0" title="下一页"></a></td>
-                                    <td><a href="#"><img src="{% static 'images/prev_end.gif' %}" width="16" height="16"
-                                                         border="0" title="尾页"></a></td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td width="20%" align="center">
-                            <table border="0" cellspacing="0" cellpadding="3">
-                                <tr>
-                                    <td><a href="#"><img src="{% static 'images/next.gif' %}" width="16" height="16"
-                                                         border="0"></a></td>
-                                    <td><input name="textfield23" type="text" size="3" style="width:25px;height:18px">
-                                        /页
+                {% if errmsg %}
+                    <p style="text-align: center;font-size: 20px;font-family: '微软雅黑 Light'">小呆没有找到这位客户的信息，好伤心呀
+                        <img src="{% static 'images/sahngxin.jpg' %}" alt="输入正确客户名称哦！" width="50" height="50"
+                             style="cursor: pointer"></p>
+                {% else %}
+                    <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
+                        <tr>
+                            <th align="center"><input type="checkbox" name="checkbox" id="checkbox"></th>
+                            <th align="center">序号</th>
+                            <th align="center">客户名称</th>
+                            <th align="center">法人代表</th>
+                            <th align="center">注册时间</th>
+                            <th align="center">类型</th>
+                            <th align="center">状态</th>
+                            <th width="240px" align="center">操作</th>
+                        </tr>
+                        {% for customer in page.object_list %}
+                            <tr>
+                                <td align="center"><input type="checkbox" name="checkbox2" id="checkbox2"></td>
+                                <td align="center">{{ customer.cid }}</td>
+                                <td align="center"><a href="{% url 'customer_info' %}?id={{ customer.cid }}"
+                                                      style="color: #0e0e0e">{{ customer.cname }}</a></td>
+                                <td align="center">{{ customer.lowyer }}</td>
+                                <td align="center">{{ customer.regtime }}</td>
+                                <td align="center">{{ customer.tid }}</td>
+                                <td align="center">{{ customer.state|mod }}</td>
+                                <td align="center">
+                                    <BUTTON style="height:21px; font-size:12px"
+                                            onClick="javascript: location.href='{% url 'customer_edit' %}?id={{ customer.cid }}';">
+                                        编辑
+                                    </BUTTON>
+                                    <input type="button" style="height:21px; font-size:12px" class="state"
+                                           value="{{ customer.state|mod_val }}">
+                                    <BUTTON style="height:21px; font-size:12px"
+                                            onClick="javascript:location.href='{% url 'customer_charge' %}?id={{ customer.cid }}'">
+                                        续费
+                                    </BUTTON>
+                                    <input type="button" style="height:21px; font-size:12px" class="del"
+                                           value="删除">
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+                    </table>
+                    <table style="margin: auto" border="0" cellspacing="0" cellpadding="0">
+                        {% if method %}
+                            <tr>
+                                <td><a href="?customer-list=1"><img src="{% static 'images/prev_top.gif' %}" width="16"
+                                                                    height="16"
+                                                                    border="0" title="首页"></a></td>
+                                {# 如果当前页还有上一页 #}
+                                {% if page.has_previous %}
+                                    <td>{# 点击a标签，跳转到上一页链接 ?index  为地址后面拼接的参数 #}
+                                        <a href="?customer-list={{ page.previous_page_number }}"><img
+                                                src="{% static 'images/prev.gif' %}" width="16" height="16"
+                                                border="0" title="上一页"></a></td>
+                                {% else %}
+                                    {# 如果没有上一页， 则上一页按钮不可点击 #}
+                                    <td class="disabled">
+                                        <a href="#"><img src="{% static 'images/prev.gif' %}" width="16" height="16"
+                                                         border="0" title="上一页"></a></a>
                                     </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td width="20%" align="right">共10条记录显示到1/1</td>
-                    </tr>
-                </table>
+                                {% endif %}
+                                {% for page_number in paginator.page_range %}
+                                    {# 获取当前页的页码 #}
+                                    {% if page_number == page.number %}
+                                        {# 如果是当前页的话，选中 #}
+                                        <td class="active">
+                                            <a href="?customer-list={{ page_number }}"
+                                               style="color: red">{{ page_number }}</a>
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            <a href="?customer-list={{ page_number }}"
+                                               style="color: #0e0e0e">{{ page_number }}</a>
+                                        </td>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if page.has_next %}
+                                    <td>
+                                        <a href="?customer-list={{ page.next_page_number }}"><img
+                                                src="{% static 'images/next.gif' %}" width="16" height="16"
+                                                border="0" title="下一页"></a>
+                                    </td>
+                                {% else %}
+                                    <td class="disabled">
+                                        <a href="#"><img
+                                                src="{% static 'images/next.gif' %}" width="16" height="16"
+                                                border="0" title="下一页"></a>
+                                    </td>
+                                {% endif %}
+                                <td><a href="?customer-list={{ paginator.page_range|length }}"><img
+                                        src="{% static 'images/prev_end.gif' %}"
+                                        width="16" height="16"
+                                        border="0" title="尾页"></a></td>
+                                <td width="20%" align="right">
+                                    共{{ page.object_list|length }}条记录显示到{{ page.number }}/{{ paginator.page_range|length }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                {#                                <input type="hidden" name="textfield" value="{{ textfi }}">#}
+                                <td><a href="{% url 'customer_find' %}?customer_find=1&textfiled={{ textfiled }}"><img
+                                        src="{% static 'images/prev_top.gif' %}" width="16"
+                                        height="16"
+                                        border="0" title="首页"></a></td>
+                                {# 如果当前页还有上一页 #}
+                                {% if page.has_previous %}
+                                    <td>{# 点击a标签，跳转到上一页链接 ?index  为地址后面拼接的参数 #}
+                                        <a href="{% url 'customer_find' %}?customer_find={{ page.previous_page_number }}&textfiled={{ textfiled }}"><img
+                                                src="{% static 'images/prev.gif' %}" width="16" height="16"
+                                                border="0" title="上一页"></a></td>
+                                {% else %}
+                                    {# 如果没有上一页， 则上一页按钮不可点击 #}
+                                    <td class="disabled">
+                                        <a href="#"><img src="{% static 'images/prev.gif' %}" width="16" height="16"
+                                                         border="0" title="上一页"></a></a>
+                                    </td>
+                                {% endif %}
+                                {% for page_number in paginator.page_range %}
+                                    {# 获取当前页的页码 #}
+                                    {% if page_number == page.number %}
+                                        {# 如果是当前页的话，选中 #}
+                                        <td class="active">
+                                            <a href="{% url 'customer_find' %}?customer_find={{ page_number }}&textfiled={{ textfiled }}"
+                                               style="color: red">{{ page_number }}</a>
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            <a href="{% url 'customer_find' %}?customer_find={{ page_number }}&textfiled={{ textfiled }}"
+                                               style="color: #0e0e0e">{{ page_number }}</a>
+                                        </td>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if page.has_next %}
+                                    <td>
+                                        <a href="{% url 'customer_find' %}?customer_find={{ page.next_page_number }}&textfiled={{ textfiled }}"><img
+                                                src="{% static 'images/next.gif' %}" width="16" height="16"
+                                                border="0" title="下一页"></a>
+                                    </td>
+                                {% else %}
+                                    <td class="disabled">
+                                        <a href="#"><img
+                                                src="{% static 'images/next.gif' %}" width="16" height="16"
+                                                border="0" title="下一页"></a>
+                                    </td>
+                                {% endif %}
+                                <td>
+                                    <a href="{% url 'customer_find' %}?customer_find={{ paginator.page_range|length }}&textfiled={{ textfiled }}"><img
+                                            src="{% static 'images/prev_end.gif' %}"
+                                            width="16" height="16"
+                                            border="0" title="尾页"></a></td>
+                                <td width="20%" align="right">
+                                    共{{ page.object_list|length }}条记录显示到{{ page.number }}/{{ paginator.page_range|length }}</td>
+                            </tr>
+                        {% endif %}
+                    </table>
+                {% endif %}
             </div>
         </td>
     </tr>
+
 </table>
+<script>
+    $(function () {
+        $('.state').click(function () {
+            var cid = $(this).parent().parent().find("td:eq(1)").text();
+            cid = parseInt(cid);
+            var state = $(this).val();
+            $.post('{% url 'customer_list' %}', {'cid': cid, 'state': state},
+                function (data) {
+                    alert(data.state);
+                    window.location.reload();
+                }
+            )
+        });
+        $('.del').click(function () {
+            var cid = $(this).parent().parent().find("td:eq(1)").text();
+            cid = parseInt(cid);
+            $.post('{% url 'customer_del' %}', {'cid': cid},
+                function (data) {
+                    alert(data.del);
+                    window.location.reload();
+                }
+            )
+        });
+    })
+</script>
+{#<script>#}
+{#    function find() {#}
+{#        var textfield = $('#textfield').val();#}
+{#        $.post({% url 'customer_find' %}, {'textfield': textfield},#}
+{#            function (data) {#}
+{##}
+{#            })#}
+{#    }#}
+{#</script>#}
 </body>
 </html>

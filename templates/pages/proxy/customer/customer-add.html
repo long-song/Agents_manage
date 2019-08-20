@@ -1,10 +1,129 @@
 <html>
 <head>
     {% load static %}
+    {% load filters %}
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/jquery1.9.0.min.js' %}"></script>
+    <style>
+        .tr {
+            BORDER-left: #FFFFFF 1px solid;
+            BORDER-top: #FFFFFF 1px solid;
+            height: 27px;
+            /* font-weight: normal; */
+            color: #000;
+            background-image: url({% static 'images/th_bg.gif' %});
+            background-repeat: repeat-x;
+            background-color: #d2e6fe;
+        }
+
+        select {
+            width: auto;
+            padding: 0 2.5%;
+            margin: 0;
+        }
+
+        option {
+            text-align-last: center;
+        }
+    </style>
+    <!--有关下拉框的值获取与联动-->
+    <script>
+        $(function () {
+            var address = $('#address');  // 获取公司地址控件
+            var a = address.val();
+            $.get('{% url 'customer_add' %}', function (data) {
+                // 获取企业类型名称
+                res = data.tid;
+                prov = $("#tid");
+                $.each(res, function (index, item) {
+                    prov.append('<option value=" ' + item[0] + '">' + item[1] + '</option>')
+                });
+                // 获取证件类型名称
+                res1 = data.lics;
+                lices = $("#lices");
+                $.each(res1, function (index, item) {
+                    lices.append('<option value="' + item[0] + '">' + item[1] + '</option>')
+                })
+            });
+            //发起ajax请求,获取所有省级地区信息
+            //获取信息，使用get
+            //涉及到信息修改，使用post
+            $.get('{% url 'province' %}', function (data) {
+                my_province = $("#province"); //得到省份控件对象
+                provinces = data.infos;
+                // index:代表集合中元素的下标
+                //item:代表当前遍历到的对象
+                $.each(provinces, function (index, item) {
+                    my_province.append("<option value=" + item.parentid + ">" + item.cityname + "</option>")
+                });
+            });
+            //给province的select控件绑定事件：
+            // 当选择内容发生变化后自动触发的事件:onchange,
+            // 但是在jquery中绑定事件时需要把前面的on去掉
+            $("#province").click(function () {
+                province_id = $("#province").val(); //获取选中对象的省份id的值
+                var city = $("#city"); //获取城市的下拉列表框
+                $.post('{% url 'city' %}', {'p_id': province_id}, function (data) {
+                    cities = data.infos;
+                    address.val(data.address);
+                    city.empty(); //清空所有的option
+                    $.each(cities, function (index, item) {
+                        console.log(index);
+                        console.log(item);
+                        city.append("<option value=" + item.parentid + ">" + item.cityname + "</option>")
+                    })
+                });
+            });
+            //给city的select控件绑定事件：
+            $("#city").click(function () {
+                city_id = $(this).val(); //获取城市id
+                province_id = $("#province").val(); //得到省份
+                //alert('city_id='+city_id)
+                var area = $("#area"); //获取区县控件对象
+                $.post("{% url 'area' %}", {'p_id': city_id, 'sheng': province_id}, function (data) {
+                    dises = data.infos; //获取所有区县组成的列表
+                    address.val(data.address);
+                    area.empty();
+                    $.each(dises, function (index, item) {
+                        console.log(index);
+                        console.log(item);
+                        area.append("<option value=" + item.parentid + ">" + item.cityname + "</option>")
+                    })
+                })
+            });
+            $('#area').click(function () {
+                area_id = $(this).val(); //获取城市id
+                province_id = $("#province").val(); //得到省份
+                city_id = $('#city').val();  // 得到城市
+                $.post("{% url 'address' %}", {'city_id': city_id, 'province_id': province_id, 'area_id': area_id},
+                    function (data) {
+                        address.val(data.address);
+                    })
+            });
+        })
+    </script>
+    <!--创建添加行函数-->
+    <script>
+        function addtab() {
+            var tcount = $("#tab tr").length;
+            var tpl = $("<tr>" +
+                "<td align='center' class='BGCgray'><input type='text' name='lxname' /></td>" +
+                "<td align='center' class='BGCgray'><input type='text' name='phone' /></td>" +
+                "<td align='center' class='BGCgray'><input type='text' name='fax' /></td>" +
+                "<td align='center' class='BGCgray'><input type='text' name='email' /></td>" +
+                "<td align='center' class='BGCgray'><input type='text' name='department' /></td>" +
+                "<td align='center' class='BGCgray'><button style='height: 25px;cursor: pointer' onclick='deleteTrRow(this);'>删除</button></td>" +
+                "</tr>");
+            $("#addTable").append(tpl);
+        }
+
+        function deleteTrRow(tr) {
+            $(tr).parent().parent().remove();
+        }
+    </script>
 </head>
 <body>
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="3">
@@ -19,7 +138,8 @@
         <td style="height:34px; background-image:url({% static '' %}images/main_header.gif); border-bottom:1px solid #cfd8e0; padding:0px">
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <td width="20" height="34"><img src="{% static 'images/main_headerL.gif' %}" width="20" height="34"></td>
+                    <td width="20" height="34"><img src="{% static 'images/main_headerL.gif' %}" width="20" height="34">
+                    </td>
                     <td style="color:#90c8e8;"><img src="{% static 'images/icon_card.gif' %}" width="16" height="16"
                                                     align="absmiddle">&nbsp;&nbsp;<strong>代理商客户添加</strong></td>
                     <td align="right" class="white" style="padding-right:20px">
@@ -27,7 +147,9 @@
                                 src="{% static 'images/btn_left.gif' %}" align="absmiddle"> 后退</a>
                         <a href="#" class="barBtn" onClick="javascript:history.go(+1);"><img
                                 src="{% static 'images/btn_right.gif' %}" align="absmiddle"> 前进</a>
-                        <a href="#" class="barBtn"><img src="{% static 'images/btn_refresh.gif' %}" align="absmiddle"> 刷新</a>
+                        <a href="javascript:location.reload();" class="barBtn"><img
+                                src="{% static 'images/btn_refresh.gif' %}" align="absmiddle">
+                            刷新</a>
                     </td>
                 </tr>
             </table>
@@ -36,168 +158,114 @@
     <tr>
         <td height="100%" valign="top">
             <div style="overflow:auto;height:100%; width:100%">
-                <table id="addTable" width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
-                    <TR>
-                        <th align="center" colspan="6">基本信息</th>
-                    </TR>
-                    <TR>
-                        <th width="20%" align="center">企业名称</th>
-                        <TD class="BGCgray" colspan="5"><input type="text"/></TD>
-                    </TR>
-                    <TR>
-                        <th align="center">企业类型</th>
-                        <TD class="BGCgray" colspan="5">
-                            <select>
-                                <option>--请选择--</option>
-                                <option value="企业">企业</option>
-                                <option value="政府">政府</option>
-                                <option value="个人">个人</option>
-                            </select>
-                        </TD>
-                    </TR>
-                    <TR>
-                        <th width="20%" align="center">状态</th>
-                        <TD class="BGCgray" colspan="5">
-                            <select>
-                                <option>启用</option>
-                                <option>禁用</option>
-                            </select>
-                        </TD>
-                    </TR>
+                <form action="{% url 'customer_add' %}" method="post">
+                    <table id="addTable" width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
+                        <TR>
+                            <th align="center" colspan="6" style="color:blue;">基本信息</th>
+                        </TR>
+                        <TR>
+                            <th width="20%" align="center">企业名称</th>
+                            <TD class="BGCgray" colspan="5"><input type="text" name="cname"></TD>
+                        </TR>
+                        <TR>
+                            <th align="center">企业类型</th>
+                            <TD class="BGCgray" colspan="5">
+                                <select id="tid" name="tid">
+                                </select>
+                            </TD>
+                        </TR>
+                        <TR>
+                            <th width="20%" align="center">状态</th>
+                            <TD class="BGCgray" colspan="5">
+                                <select name="state">
+                                    <option value="1">{{ 1|mod }}</option>
+                                    <option value="0">{{ 0|mod }}</option>
+                                </select>
+                            </TD>
+                        </TR>
 
 
-                    <TR>
-                        <th align="center" colspan="6">门户信息</th>
-                    </TR>
+                        <TR>
+                            <th align="center" colspan="6" style="color:blue;">门户信息</th>
+                        </TR>
 
 
-                    <TR>
-                        <th width="20%" align="center">法人代表</th>
-                        <TD class="BGCgray" colspan="2"><input type="text"/></TD>
-                        <th width="20%" align="center">注册日期</th>
-                        <TD class="BGCgray" colspan="2"><input type="text"/></TD>
-                    </TR>
-                    <TR>
-                        <th width="20%" align="center">证件类型</th>
-                        <TD class="BGCgray" colspan="2"><input type="text"/></TD>
-                        <th width="20%" align="center">证件号码</th>
-                        <TD class="BGCgray" colspan="2"><input type="text"/></TD>
-                    </TR>
-                    <TR>
-                        <th width="20%" align="center">国家</th>
-                        <TD class="BGCgray" colspan="2"><input type="text"/></TD>
-                        <th width="20%" align="center">省/地区</th>
-                        <TD class="BGCgray" colspan="2"><input type="text"/></TD>
-                    </TR>
-                    <TR>
-                        <th width="20%" align="center">公司传真</th>
-                        <TD class="BGCgray" colspan="2"><input type="text"/></TD>
-                        <th width="20%" align="center">城市</th>
-                        <TD class="BGCgray" colspan="2"><input type="text"/></TD>
-                    </TR>
-                    <TR>
-                        <th width="20%" align="center">公司电话</th>
-                        <TD class="BGCgray" colspan="2"><input type="text"/></TD>
-                        <th width="20%" align="center">区</th>
-                        <TD class="BGCgray" colspan="2"><input type="text"/></TD>
-                    </TR>
-                    <TR>
-                        <th width="20%" align="center">公司地址</th>
-                        <TD class="BGCgray" colspan="5"><input type="text"/></TD>
-                    </TR>
-                    <TR>
-                        <th width="20%" align="center">备注</th>
-                        <TD class="BGCgray" colspan="5">
-                            <textarea cols="25" rows="6"></textarea>
-                        </TD>
-                    </TR>
-                    <script>
-
-                        function addChild() {
-
-
-                            var addTable = document.getElementById("addTable");
-
-                            var newTr = document.createElement("tr");
-
-                            var newTd1 = document.createElement("td");
-                            var newInput1 = document.createElement("input");
-                            newTd1.align = "center";
-                            newTd1.className = "BGCgray";
-                            newTd1.appendChild(newInput1);
-
-                            var newTd2 = document.createElement("td");
-                            var newInput2 = document.createElement("input");
-                            newTd2.align = "center";
-                            newTd2.className = "BGCgray";
-                            newTd2.appendChild(newInput2);
-
-                            var newTd3 = document.createElement("td");
-                            var newInput3 = document.createElement("input");
-                            newTd3.align = "center";
-                            newTd3.className = "BGCgray";
-                            newTd3.appendChild(newInput3);
-
-                            var newTd4 = document.createElement("td");
-                            var newInput4 = document.createElement("input");
-                            newTd4.align = "center";
-                            newTd4.className = "BGCgray";
-                            newTd4.appendChild(newInput4);
-
-                            var newTd5 = document.createElement("td");
-                            var newInput5 = document.createElement("input");
-                            newTd5.align = "center";
-                            newTd5.className = "BGCgray";
-                            newTd5.appendChild(newInput5);
-
-                            var newTd6 = document.createElement("td");
-                            var newEl = document.createElement("button");
-                            newTd6.align = "center";
-                            newTd6.className = "BGCgray";
-                            newEl.innerText = "删除";
-                            newEl.style.height = "25px";
-                            newEl.onclick = function () {
-                                var tr = newEl.parentNode.parentNode;
-                                tr.remove();
-                            };
-                            newTd6.className = "BGCgray";
-                            newTd6.appendChild(newEl);
-
-                            newTr.appendChild(newTd1);
-                            newTr.appendChild(newTd2);
-                            newTr.appendChild(newTd3);
-                            newTr.appendChild(newTd4);
-                            newTr.appendChild(newTd5);
-                            newTr.appendChild(newTd6);
-
-                            addTable.appendChild(newTr);
-                        }
-
-
-                    </script>
-                    <TR>
-                        <th width="20%" align="left" colspan="6"><a href="javascript:addChild();"><span
-                                style="color:blue;">添加一个联系人</span></a></th>
-                    </TR>
-                    <tr>
-                        <th>姓名</th>
-                        <th>电话</th>
-                        <th>传真</th>
-                        <th>邮箱</th>
-                        <th>职务</th>
-                        <th>操作</th>
-                    </tr>
-                </table>
-                <div style="width:100%; text-align:center; padding:5px">
-                    <BUTTON style="HEIGHT:25px"
-                            onClick="javascript:if (confirm('保存信息？')) location.href='{% url 'customer_list' %}';else return;">
-                        <img src="{% static 'images/btn_save.gif' %}" width="16" height="16" align="absmiddle"> 保存
-                    </BUTTON>
-                    <BUTTON style="HEIGHT:25px" onClick="history.back()"><img src="{% static 'images/btn_back.gif' %}"
-                                                                              width="16" height="16" align="absmiddle">
-                        返回
-                    </BUTTON>
-                </div>
+                        <TR>
+                            <th width="20%" align="center">法人代表</th>
+                            <TD class="BGCgray" colspan="2"><input type="text" name="lowyer"></TD>
+                            <th width="20%" align="center">注册日期</th>
+                            <TD class="BGCgray" colspan="2">
+                                <input type="date" name="regtime"></TD>
+                        </TR>
+                        <TR>
+                            <th width="20%" align="center">证件类型</th>
+                            <TD class="BGCgray" colspan="2">
+                                <select id="lices" name="licenseid">
+                                </select></TD>
+                            <th width="20%" align="center">证件号码</th>
+                            <TD class="BGCgray" colspan="2"><input type="text" name="licensecard"></TD>
+                        </TR>
+                        <TR>
+                            <th width="20%" align="center">国家</th>
+                            <TD class="BGCgray" colspan="2"><input type="text" name="country" value="中国"
+                                                                   style="text-align: center"></TD>
+                            <th width="20%" align="center">省份</th>
+                            <TD class="BGCgray" colspan="2">
+                                <select id="province" name="sheng">
+                                </select>
+                            </TD>
+                        </TR>
+                        <TR>
+                            <th width="20%" align="center">公司传真</th>
+                            <TD class="BGCgray" colspan="2"><input type="text" name="fax"></TD>
+                            <th width="20%" align="center">城/市</th>
+                            <TD class="BGCgray" colspan="2">
+                                <select id="city" name="shi">
+                                    <option>---请选择城市---</option>
+                                </select>
+                            </TD>
+                        </TR>
+                        <TR>
+                            <th width="20%" align="center">公司电话</th>
+                            <TD class="BGCgray" colspan="2"><input type="text" name="phone"></TD>
+                            <th width="20%" align="center">区/县</th>
+                            <TD class="BGCgray" colspan="2">
+                                <select id="area" name="qu">
+                                    <option>---请选择区县---</option>
+                                </select>
+                            </TD>
+                        </TR>
+                        <TR>
+                            <th width="20%" align="center">公司地址</th>
+                            <TD class="BGCgray" colspan="5"><input type="text" id="address" name="address"></TD>
+                        </TR>
+                        <TR>
+                            <th width="20%" align="center">备注</th>
+                            <TD class="BGCgray" colspan="5">
+                                <textarea cols="25" rows="6" name="remark"></textarea>
+                            </TD>
+                        </TR>
+                        <TR>
+                            <th width="20%" align="left" colspan="6"><span
+                                    style="color:blue;cursor: pointer" onclick="addtab()"><b>添加一个联系人</b></span></th>
+                        </TR>
+                        <tr>
+                            <th>姓名</th>
+                            <th>电话</th>
+                            <th>传真</th>
+                            <th>邮箱</th>
+                            <th>职务</th>
+                            <th>操作</th>
+                        </tr>
+                    </table>
+                    <div style="width:100%; text-align:center; padding:5px">
+                        <BUTTON type="submit" style="HEIGHT:25px"><img
+                                src="{% static 'images/btn_save.gif' %}"
+                                width="16" height="16"
+                                align="absmiddle"> 保存
+                        </BUTTON>
+                    </div>
+                </form>
             </div>
         </td>
     </tr>

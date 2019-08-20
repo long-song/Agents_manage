@@ -20,19 +20,23 @@
         <td style="height:34px; background-image:url({% static 'images/main_header.gif' %}); border-bottom:1px solid #cfd8e0; padding:0px">
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <td width="20" height="34"><img src="{% static 'images/main_headerL.gif' %}" width="20" height="34"></td>
+                    <td width="20" height="34"><img src="{% static 'images/main_headerL.gif' %}" width="20" height="34">
+                    </td>
                     <td style="color:#90c8e8;"><img src="{% static 'images/icon_card.gif' %}" width="16" height="16"
                                                     align="absmiddle">&nbsp;&nbsp;<strong>操作日志</strong></td>
                     <td align="right" class="white" style="padding-right:20px">
-                        <a href="#" class="barBtn" onClick="javascript:history.go(-1);"><img src="{% static 'images/5.png' %}"
-                                                                                             align="absmiddle">导出excel</a>
-                        <a href="#" class="barBtn" onClick="javascript:history.go(-1);"><img src="{% static 'images/5.png' %}"
-                                                                                             align="absmiddle">导出txt</a>
+                        <a href="#" class="barBtn" onClick="javascript:history.go(-1);"><img
+                                src="{% static 'images/5.png' %}"
+                                align="absmiddle">导出excel</a>
+                        <a href="#" class="barBtn" onClick="javascript:history.go(-1);"><img
+                                src="{% static 'images/5.png' %}"
+                                align="absmiddle">导出txt</a>
                         <a href="#" class="barBtn" onClick="javascript:history.go(-1);"><img
                                 src="{% static 'images/btn_left.gif' %}" align="absmiddle"> 后退</a>
                         <a href="#" class="barBtn" onClick="javascript:history.go(+1);"><img
                                 src="{% static 'images/btn_right.gif' %}" align="absmiddle"> 前进</a>
-                        <a href="#" class="barBtn"><img src="{% static 'images/btn_refresh.gif' %}" align="absmiddle"> 刷新</a>
+                        <a href="javascript:location.reload();" class="barBtn"><img src="{% static 'images/btn_refresh.gif' %}" align="absmiddle">
+                            刷新</a>
                     </td>
                 </tr>
             </table>
@@ -40,106 +44,173 @@
     </tr>
     <tr>
         <td style="height:30px; background-color:#bddbff; border-bottom:1px solid #cfd8e0;">
-
-            <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
-                <TR>
-                    <th width="10%" align="center">操作人</th>
-                    <td class="BGCgray">
-                        <input type="text"/>
-                    </td>
-                    <th width="10%" align="center">操作时间</th>
-                    <td class="BGCgray">
-                        <input type="text"/>&nbsp;至&nbsp;<input type="text"/>
-                    </td>
-                    <th width="10%" align="center">
-                        <BUTTON style="HEIGHT:25px"
-                                onClick="javascript:if (confirm('查询数据？')) location.href='#';else return;"><img
-                                src="{% static 'images/btn_search.gif' %}" width="16" height="16" align="absmiddle"> 查询
-                        </BUTTON>
-                    </th>
-                </TR>
-            </table>
-
+            <form action="{% url 'log_list_find' %}" method="get">
+                <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
+                    <TR>
+                        <th width="10%" align="center">操作人</th>
+                        <td class="BGCgray">
+                            <input type="text" name="rzname">
+                        </td>
+                        <th width="10%" align="center">操作时间</th>
+                        <td class="BGCgray">
+                            <input type="date" name="startDate">&nbsp;至&nbsp;<input type="date" name="endDate">
+                        </td>
+                        <th width="10%" align="center">
+                            <BUTTON type="submit" style="HEIGHT:25px"><img
+                                    src="{% static 'images/btn_search.gif' %}" width="16" height="16" align="absmiddle">
+                                查询
+                            </BUTTON>
+                        </th>
+                    </TR>
+                </table>
+            </form>
         </td>
     </tr>
     <tr>
         <td height="100%" valign="top">
             <div style="overflow:auto;height:100%; width:100%">
-                <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
-                    <TR>
+                {% if errmsg %}
+                    <p style="text-align: center;font-size: 20px;font-family: '微软雅黑 Light'">小呆没有找到这位客户的信息，好伤心呀
+                        <img src="{% static 'images/sahngxin.jpg' %}" alt="输入正确客户名称哦！" width="50" height="50"
+                             style="cursor: pointer"></p>
+                {% else %}
+                    <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
+                        <TR>
 
-                        <th align="center">序号</th>
-                        <th align="center">操作人</th>
-                        <th align="center">操作信息</th>
-                        <th align="center">操作时间</th>
-                    </TR>
-                    <TR>
-
-                        <TD align="center">1</TD>
-                        <TD align="center">韩露</TD>
-                        <TD align="center">用户进行操作日志查看操作</TD>
-                        <TD align="center">2012-01-02 12:25:22</TD>
-                    </TR>
-                    <TR>
-
-                        <TD align="center">2</TD>
-                        <TD align="center">韩露</TD>
-                        <TD align="center">用户进行操作日志查看操作</TD>
-                        <TD align="center">2012-01-02 12:25:22</TD>
-                    </TR>
-                    <TR>
-
-                        <TD align="center">3</TD>
-                        <TD align="center">韩露</TD>
-                        <TD align="center">用户进行操作日志查看操作</TD>
-                        <TD align="center">2012-01-02 12:25:22</TD>
-                    </TR>
-                    <TR>
-
-                        <TD align="center">4</TD>
-                        <TD align="center">韩露</TD>
-                        <TD align="center">用户进行操作日志查看操作</TD>
-                        <TD align="center">2012-01-02 12:25:22</TD>
-                    </TR>
-                    <TR>
-
-                        <TD align="center">5</TD>
-                        <TD align="center">韩露</TD>
-                        <TD align="center">用户进行操作日志查看操作</TD>
-                        <TD align="center">2012-01-02 12:25:22</TD>
-                    </TR>
-
-                </table>
-                <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td width="20%" height="25">
-                            <table border="0" cellspacing="0" cellpadding="3">
-                                <tr>
-                                    <td><a href="#"><img src="{% static 'images/prev_top.gif' %}" width="16" height="16"
-                                                         border="0" title="首页"></a></td>
-                                    <td><a href="#"><img src="{% static 'images/prev.gif' %}" width="16" height="16"
-                                                         border="0" title="上一页"></a></td>
-                                    <td><a href="#"><img src="{% static 'images/next.gif' %}" width="16" height="16"
-                                                         border="0" title="下一页"></a></td>
-                                    <td><a href="#"><img src="{% static 'images/prev_end.gif' %}" width="16" height="16"
-                                                         border="0" title="尾页"></a></td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td width="20%" align="center">
-                            <table border="0" cellspacing="0" cellpadding="3">
-                                <tr>
-                                    <td><a href="#"><img src="{% static 'images/next.gif' %}" width="16" height="16"
-                                                         border="0"></a></td>
-                                    <td><input name="textfield23" type="text" size="3" style="width:25px;height:18px">
-                                        /页
+                            <th align="center">序号</th>
+                            <th align="center">操作人</th>
+                            <th align="center">操作信息</th>
+                            <th align="center">操作时间</th>
+                        </TR>
+                        {% for log in page.object_list %}
+                            <TR>
+                                <TD align="center">{{ log.rzid }}</TD>
+                                <TD align="center">{{ log.rzname }}</TD>
+                                <TD align="center">{{ log.rztext }}</TD>
+                                <TD align="center">{{ log.rztime }}</TD>
+                            </TR>
+                        {% endfor %}
+                    </table>
+                    <table style="margin: auto" border="0" cellspacing="0" cellpadding="0">
+                        {% if method %}
+                            <tr>
+                                <td>
+                                    <a href="?log_list=1">
+                                        <img src="{% static 'images/prev_top.gif' %}" width="16"
+                                                               height="16"
+                                                               border="0" title="首页">
+                                    </a>
+                                </td>
+                                {# 如果当前页还有上一页 #}
+                                {% if page.has_previous %}
+                                    <td>{# 点击a标签，跳转到上一页链接 ?index  为地址后面拼接的参数 #}
+                                        <a href="?log_list={{ page.previous_page_number }}">
+                                            <img src="{% static 'images/prev.gif' %}" width="16" height="16"
+                                                border="0" title="上一页">
+                                        </a>
                                     </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td width="20%" align="right">共10条记录显示到1/1</td>
-                    </tr>
-                </table>
+                                {% else %}
+                                    {# 如果没有上一页， 则上一页按钮不可点击 #}
+                                    <td class="disabled">
+                                        <a href="#"><img src="{% static 'images/prev.gif' %}" width="16" height="16"
+                                                         border="0" title="上一页"></a></a>
+                                    </td>
+                                {% endif %}
+                                {% for page_number in paginator.page_range %}
+                                    {# 获取当前页的页码 #}
+                                    {% if page_number == page.number %}
+                                        {# 如果是当前页的话，选中 #}
+                                        <td class="active">
+                                            <a href="?log_list={{ page_number }}"
+                                               style="color: red">{{ page_number }}</a>
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            <a href="?log_list={{ page_number }}"
+                                               style="color: #0e0e0e">{{ page_number }}</a>
+                                        </td>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if page.has_next %}
+                                    <td>
+                                        <a href="?log_list={{ page.next_page_number }}"><img
+                                                src="{% static 'images/next.gif' %}" width="16" height="16"
+                                                border="0" title="下一页"></a>
+                                    </td>
+                                {% else %}
+                                    <td class="disabled">
+                                        <a href="#"><img
+                                                src="{% static 'images/next.gif' %}" width="16" height="16"
+                                                border="0" title="下一页"></a>
+                                    </td>
+                                {% endif %}
+                                <td><a href="?log_list={{ paginator.page_range|length }}"><img
+                                        src="{% static 'images/prev_end.gif' %}"
+                                        width="16" height="16"
+                                        border="0" title="尾页"></a></td>
+                                <td width="20%" align="right">
+                                    共{{ page.object_list|length }}条记录显示到{{ page.number }}/{{ paginator.page_range|length }}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'log_list_find' %}?log_list=1&rzname={{ rzname }}&startDate={{ startDate }}&endDate={{ endDate }}">
+                                        <img src="{% static 'images/prev_top.gif' %}" width="16"
+                                             height="16"
+                                             border="0" title="首页"></a>
+                                </td>
+                                {# 如果当前页还有上一页 #}
+                                {% if page.has_previous %}
+                                    <td>{# 点击a标签，跳转到上一页链接 ?index  为地址后面拼接的参数 #}
+                                        <a href="{% url 'log_list_find' %}?log_list={{ page.previous_page_number }}&rzname={{ rzname }}&startDate={{ startDate }}&endDate={{ endDate }}"><img
+                                                src="{% static 'images/prev.gif' %}" width="16" height="16"
+                                                border="0" title="上一页"></a></td>
+                                {% else %}
+                                    {# 如果没有上一页， 则上一页按钮不可点击 #}
+                                    <td class="disabled">
+                                        <a href="#"><img src="{% static 'images/prev.gif' %}" width="16" height="16"
+                                                         border="0" title="上一页"></a></a>
+                                    </td>
+                                {% endif %}
+                                {% for page_number in paginator.page_range %}
+                                    {# 获取当前页的页码#}
+                                    {% if page_number == page.number %}
+                                        {#如果是当前页的话，选中#}
+                                        <td class="active">
+                                            <a href="{% url 'log_list_find' %}?log_list={{ page_number }}&rzname={{ rzname }}&startDate={{ startDate }}&endDate={{ endDate }}"
+                                               style="color: red">{{ page_number }}</a>
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            <a href="{% url 'log_list_find' %}?log_list={{ page_number }}&rzname={{ rzname }}&startDate={{ startDate }}&endDate={{ endDate }}"
+                                               style="color: #0e0e0e">{{ page_number }}</a>
+                                        </td>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if page.has_next %}
+                                    <td>
+                                        <a href="{% url 'log_list_find' %}?log_list={{ page.next_page_number }}&rzname={{ rzname }}&startDate={{ startDate }}&endDate={{ endDate }}"><img
+                                                src="{% static 'images/next.gif' %}" width="16" height="16"
+                                                border="0" title="下一页"></a>
+                                    </td>
+                                {% else %}
+                                    <td class="disabled">
+                                        <a href="#"><img
+                                                src="{% static 'images/next.gif' %}" width="16" height="16"
+                                                border="0" title="下一页"></a>
+                                    </td>
+                                {% endif %}
+                                <td>
+                                    <a href="{% url 'log_list_find' %}?log_list={{ paginator.page_range|length }}&rzname={{ rzname }}&startDate={{ startDate }}&endDate={{ endDate }}"><img
+                                            src="{% static 'images/prev_end.gif' %}"
+                                            width="16" height="16"
+                                            border="0" title="尾页"></a></td>
+                                <td width="20%" align="right">
+                                    共{{ page.object_list|length }}条记录显示到{{ page.number }}/{{ paginator.page_range|length }}</td>
+                            </tr>
+                        {% endif %}
+                    </table>
+                {% endif %}
             </div>
         </td>
     </tr>

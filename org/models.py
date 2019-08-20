@@ -1,6 +1,5 @@
 from django.db import models
 
-
 # Create your models here.
 class User(models.Model):
     user_id = models.AutoField(primary_key=True)
@@ -23,27 +22,20 @@ class User(models.Model):
     class Meta:
         managed = False
         db_table = 'user'
-
-    def user_state1(self):
-        """
-        判断是否启用  1启用 0禁用
-
-        :return:
-        """
-        if self.user_state == 1:
-            return '启用'
-        else:
-            return '禁用'
+    def __str__(self):
+        return self.user_realname
 
 
 class UserRole(models.Model):
-    user = models.ForeignKey('User', models.DO_NOTHING, primary_key=True)
+    user = models.ForeignKey('User', models.DO_NOTHING)
     role = models.ForeignKey('Role', models.DO_NOTHING)
 
     class Meta:
         managed = False
         db_table = 'user_role'
         unique_together = (('user', 'role'),)
+
+
 
 
 class Menu(models.Model):
@@ -60,49 +52,6 @@ class Menu(models.Model):
         managed = False
         db_table = 'menu'
 
-    def menu_firstmenu1(self):
-        """
-        菜单分类
-        :return:
-        """
-        if self.menu_firstmenu == -1:
-            return '菜单'
-        elif self.menu_firstmenu == 0:
-            return '上级菜单'
-        else:
-            return '下级菜单'
-
-    def menu_state1(self):
-        """
-        判断是否启用  1启用 0禁用
-
-        :return:
-        """
-        if self.menu_state == 1:
-            return '启用'
-        else:
-            return '禁用'
-
-    def menu_intro1(self):
-        """
-        菜单介绍
-        :return:
-        """
-        if self.menu_intro == None:
-            return '无'
-        else:
-            return self.menu_intro
-
-    def menu_url1(self):
-        """
-        地址
-        :return:
-        """
-        if self.menu_url == None:
-            return '无'
-        else:
-            return self.menu_intro
-
 
 class Role(models.Model):
     role_id = models.AutoField(primary_key=True)
@@ -115,22 +64,20 @@ class Role(models.Model):
         managed = False
         db_table = 'role'
 
-    def role_state1(self):
-        """
-        判断是否启用  1启用 0禁用
-        :return:
-        """
-        if self.role_state == 1:
-            return '启用'
-        else:
-            return '禁用'
-
 
 class RoleMenu(models.Model):
-    role = models.ForeignKey(Role, on_delete=models.CASCADE, primary_key=True)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE)
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
 
     class Meta:
         managed = False
         db_table = 'role_menu'
         unique_together = (('role', 'menu'),)
+
+class Pic(models.Model):
+    my_header = models.ImageField()
+    user = models.ForeignKey('User',on_delete=models.CASCADE)
+
+    class Meta:
+        managed = False
+        db_table = 'pic'
