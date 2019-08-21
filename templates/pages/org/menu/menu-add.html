@@ -1,73 +1,105 @@
 {% load static %}
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
-<title></title>
-<link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+{#    <style>#}
+{#        #return a {#}
+{#            text-decoration: none;#}
+{#            color: black;#}
+{#        }#}
+{#    </style>#}
 </head>
 <body>
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="3">
-  <tr>
-    <td style="height:25px; background-color:#f3f3f3; font-weight:bold" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;µ±Ç°Î»ÖÃ£º <img src="{% static 'images/arrow.gif' %}" align="absmiddle">&nbsp;&nbsp;´úÀíÉÌ¹ÜÀíÏµÍ³&nbsp;&nbsp; <img src="{% static 'images/arrow.gif' %}" align="absmiddle">&nbsp;&nbsp;²Ëµ¥¹ÜÀí&nbsp;&nbsp; <img src="{% static 'images/arrow.gif' %}" align="absmiddle">&nbsp;&nbsp;²Ëµ¥Ìí¼Ó</td>
-  </tr>
-  <tr>
-    <td style="height:34px; background-image:url({% static 'images/main_header.gif' %}); border-bottom:1px solid #cfd8e0; padding:0px">
-      <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td width="20" height="34"><img src="{% static 'images/main_headerL.gif' %}" width="20" height="34"></td>
-          <td style="color:#90c8e8;"><img src="{% static 'images/icon_card.gif' %}" width="16" height="16" align="absmiddle">&nbsp;&nbsp;<strong>²Ëµ¥Ìí¼Ó</strong></td>
-          <td align="right" class="white" style="padding-right:20px">
-          <a href="#" class="barBtn" onClick="javascript:history.go(-1);"><img src="{% static 'images/btn_left.gif' %}" align="absmiddle"> ºóÍË</a>
-          <a href="#" class="barBtn" onClick="javascript:history.go(+1);"><img src="{% static 'images/btn_right.gif' %}" align="absmiddle"> Ç°½ø</a>
-          <a href="#" class="barBtn"><img src="{% static 'images/btn_refresh.gif' %}" align="absmiddle"> Ë¢ĞÂ</a>
-          </td>
-        </tr>
-    </table></td>
-  </tr>
-  <tr>
-    <td height="100%" valign="top">
-    <div style="overflow:auto;height:100%; width:100%">
-      <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
-        <TR>
-          <th width="20%" align="center">²Ëµ¥Ãû³Æ</th>
-          <TD class="BGCgray"><input type="text"/></TD>
-          </TR>
-        <TR>
-          <th align="center">ÉÏ¼¶²Ëµ¥</th>
-          <TD width="80%" class="BGCgray">
-          <select>
-          <option>¶¥¼¶²Ëµ¥</option>
-          <option>ÏµÍ³ÉèÖÃ</option>
-          </select>
-          </TD>
-        </TR>
-        <TR>
-        	<th align="center">ÆôÓÃ×´Ì¬</th>
-          	<TD class="BGCgray">
-            	<input type="radio" name="status" checked />ÆôÓÃ<input name="status" type="radio" />½ûÓÃ
-            </TD>
-        </TR>
-		<TR>
-        	<th align="center">²Ëµ¥Â·¾¶</th>
-          	<TD class="BGCgray">
-            	<input type="text" />
-            </TD>
-        </TR>
-        <TR>
-          <th align="center"><span class="BGCgray">²Ëµ¥¼ò½é</span></th>
-          <TD class="BGCgray">
-          	<textarea cols="40" rows="6"></textarea>
-          </TD>
-        </TR>
-      </table>
-      <div style="width:100%; text-align:center; padding:5px">
-        <BUTTON style="HEIGHT:25px" onClick="javascript:if (confirm('±£´æĞÅÏ¢£¿')) location.href='menu-list.html';else return;"><img src="{% static 'images/btn_save.gif' %}" width="16" height="16" align="absmiddle"> ±£´æ</BUTTON>
-        <BUTTON style="HEIGHT:25px" onClick="history.back()"><img src="{% static 'images/btn_back.gif' %}" width="16" height="16" align="absmiddle"> ·µ»Ø</BUTTON>
-      </div>
-    </div>
-  </td>
-  </tr>
+    <tr>
+        <td style="height:25px; background-color:#f3f3f3; font-weight:bold" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;å½“å‰ä½ç½®ï¼š
+            <img src="{% static 'images/arrow.gif' %}" align="absmiddle">&nbsp;&nbsp;ä»£ç†å•†ç®¡ç†ç³»ç»Ÿ&nbsp;&nbsp; <img
+                    src="{% static 'images/arrow.gif' %}" align="absmiddle">&nbsp;&nbsp;èœå•ç®¡ç†&nbsp;&nbsp; <img
+                    src="{% static 'images/arrow.gif' %}" align="absmiddle">&nbsp;&nbsp;èœå•æ·»åŠ 
+        </td>
+    </tr>
+    <tr>
+        <td style="height:34px; background-image:url({% static 'images/main_header.gif' %}); border-bottom:1px solid #cfd8e0; padding:0px">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="20" height="34"><img src="{% static 'images/main_headerL.gif' %}" width="20" height="34">
+                    </td>
+                    <td style="color:#90c8e8;"><img src="{% static 'images/icon_card.gif' %}" width="16" height="16"
+                                                    align="absmiddle">&nbsp;&nbsp;<strong>èœå•æ·»åŠ </strong></td>
+                    <td align="right" class="white" style="padding-right:20px">
+                        <a href="#" class="barBtn" onClick="javascript:history.go(-1);"><img
+                                src="{% static 'images/btn_left.gif' %}" align="absmiddle"> åé€€</a>
+                        <a href="#" class="barBtn" onClick="javascript:history.go(+1);"><img
+                                src="{% static 'images/btn_right.gif' %}" align="absmiddle"> å‰è¿›</a>
+                        <a href="#" class="barBtn"><img src="{% static 'images/btn_refresh.gif' %}" align="absmiddle">
+                            åˆ·æ–°</a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td height="100%" valign="top">
+             <form action="{% url 'menu_add' %}" id="menu_add_ajax" method="post">
+                    {% csrf_token %}
+            <div style="overflow:auto;height:100%; width:100%">
+
+                    <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
+                        <TR>
+                            <th width="20%" align="center">èœå•åç§°</th>
+                            <TD class="BGCgray"><input type="text" name="menu_name"/>{{ menu_name }}</TD>
+                        </TR>
+                        <TR>
+                            <th align="center">ä¸Šçº§èœå•</th>
+                            <TD width="80%" class="BGCgray">
+                                <select name="select_menu">
+                                    <option value="-1" selected>é¡¶çº§èœå•</option>
+                                    <option value="0">ä¸Šçº§èœå•</option>
+                                    <option value="3">ä¸‹çº§èœå•</option>
+                                </select>
+                            </TD>
+                        </TR>
+                        <TR>
+                            <th align="center">å¯ç”¨çŠ¶æ€</th>
+                            <TD class="BGCgray">
+                                <input type="radio" name="status" value="1" checked/>å¯ç”¨<input name="status" value="0"
+                                                                                              type="radio"/>ç¦ç”¨
+                            </TD>
+                        </TR>
+                        <TR>
+                            <th align="center">èœå•è·¯å¾„</th>
+                            <TD class="BGCgray">
+                                <input name="menu_url" type="text"/>{{ menu_url }}
+                            </TD>
+                        </TR>
+                        <TR>
+                            <th align="center"><span class="BGCgray">èœå•ç®€ä»‹</span></th>
+                            <TD class="BGCgray">
+                                <textarea cols="40" rows="6" name="menu_intro"></textarea>
+                            </TD>
+                        </TR>
+                    </table>
+                    <div style="width:100%; text-align:center; padding:5px" id="return">
+                        <BUTTON style="HEIGHT:25px"
+                                onClick=";javascript:if (confirm('ä¿å­˜ä¿¡æ¯ï¼Ÿ')) location.href='menu-list.html';else return;">
+                            <img src="{% static 'images/btn_save.gif' %}" width="16" height="16" align="absmiddle"> ä¿å­˜
+                        </BUTTON>
+                        <BUTTON style="HEIGHT:25px" onClick="history.back()">
+{#                        <BUTTON style="HEIGHT:25px" >#}
+{#                            <a href="{% url 'org_menu_index' %}" style="text-decoration: none;color: black">#}
+{#                            <a href="{% url 'org_menu_index' %}" style="text-decoration: none;color: black">#}
+                            <img src="{% static 'images/btn_back.gif' %}" width="16" height="16" align="absmiddle">
+                                <a href="{% url 'org_menu_index' %}">è¿”å›</a>
+                        </BUTTON>
+                    </div>
+
+            </div>
+            </form>
+        </td>
+    </tr>
 </table>
 </body>
 </html>

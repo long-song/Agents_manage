@@ -9,3 +9,5 @@ class StateTb(models.Model):
     class Meta:
         managed = False
         db_table = 'state_tb'
+    def __str__(self):
+        return self.st_name

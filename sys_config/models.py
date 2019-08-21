@@ -20,6 +20,8 @@ class CustomertypeTb(models.Model):
     class Meta:
         managed = False
         db_table = 'customertype_tb'
+    def __str__(self):
+        return self.cstmtype
 
 
 class DiscountTb(models.Model):
@@ -42,6 +44,8 @@ class FinaceTb(models.Model):
     class Meta:
         managed = False
         db_table = 'finace_tb'
+    def __str__(self):
+        return self.finacetype
 
 
 class LicenseTb(models.Model):

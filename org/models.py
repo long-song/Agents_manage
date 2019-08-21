@@ -2,17 +2,6 @@ from django.db import models
 
 
 # Create your models here.
-
-class Pic(models.Model):
-    my_header = models.ImageField()
-    user = models.ForeignKey('User', on_delete=models.CASCADE, null=True)
-
-
-class Meta:
-    managed = False
-    db_table = 'org_pic'
-
-
 class User(models.Model):
     user_id = models.AutoField(primary_key=True)
     user_realname = models.CharField(max_length=20, blank=True, null=True)
@@ -34,6 +23,19 @@ class User(models.Model):
     class Meta:
         managed = False
         db_table = 'user'
+
+    def __str__(self):
+        return self.user_realname
+
+    def user_state1(self):
+        """
+        判断状态
+        :return:
+        """
+        if self.user_state == 1:
+            return '启用'
+        else:
+            return '禁用'
 
 
 class UserRole(models.Model):
@@ -60,6 +62,38 @@ class Menu(models.Model):
         managed = False
         db_table = 'menu'
 
+    def menu_firstmenu1(self):
+        """
+        判断菜单
+        :return:
+        """
+        if self.menu_firstmenu == -1:
+            return '菜单'
+        elif self.menu_firstmenu == 0:
+            return '上级菜单'
+        else:
+            return '下级菜单'
+
+    def menu_intro1(self):
+        """
+        判断简介
+        :return:
+        """
+        if self.menu_intro:
+            return self.menu_intro
+        else:
+            return '无内容'
+
+    def menu_state1(self):
+        """
+        判断状态 1 启用  0禁用
+        :return:
+        """
+        if self.menu_state == 1:
+            return '启用'
+        else:
+            return '禁用'
+
 
 class Role(models.Model):
     role_id = models.AutoField(primary_key=True)
@@ -72,12 +106,31 @@ class Role(models.Model):
         managed = False
         db_table = 'role'
 
+    def role_state1(self):
+        """
+        判断状态  1 启用 0 禁用
+        :return:
+        """
+        if self.role_state == 1:
+            return '启用'
+        else:
+            return '禁用'
+
 
 class RoleMenu(models.Model):
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, primary_key=True)
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
 
     class Meta:
         managed = False
         db_table = 'role_menu'
         unique_together = (('role', 'menu'),)
+
+
+class Pic(models.Model):
+    my_header = models.ImageField()
+    user = models.ForeignKey('User', on_delete=models.CASCADE)
+
+    class Meta:
+        managed = False
+        db_table = 'pic'

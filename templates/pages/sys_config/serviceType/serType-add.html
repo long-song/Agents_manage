@@ -1,6 +1,8 @@
 <html>
 <head>
     {% load static %}
+    {% load filters %}
+    {% csrf_token %}
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
@@ -19,7 +21,8 @@
         <td style="height:34px; background-image:url({% static 'images/main_header.gif' %}); border-bottom:1px solid #cfd8e0; padding:0px">
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <td width="20" height="34"><img src="{% static 'images/main_headerL.gif' %}" width="20" height="34"></td>
+                    <td width="20" height="34"><img src="{% static 'images/main_headerL.gif' %}" width="20" height="34">
+                    </td>
                     <td style="color:#90c8e8;"><img src="{% static 'images/icon_card.gif' %}" width="16" height="16"
                                                     align="absmiddle">&nbsp;&nbsp;<strong>服务类型</strong></td>
                     <td align="right" class="white" style="padding-right:20px">
@@ -27,7 +30,8 @@
                                 src="{% static 'images/btn_left.gif' %}" align="absmiddle"> 后退 </a>
                         <a href="#" class="barBtn" onClick="javascript:history.go(+1);"><img
                                 src="{% static 'images/btn_right.gif' %}" align="absmiddle"> 前进 </a>
-                        <a href="#" class="barBtn"><img src="{% static 'images/btn_refresh.gif' %}" align="absmiddle"> 刷新</a>
+                        <a href="#" class="barBtn"><img src="{% static 'images/btn_refresh.gif' %}" align="absmiddle">
+                            刷新</a>
                     </td>
                 </tr>
             </table>
@@ -36,34 +40,37 @@
     <tr>
         <td height="100%" valign="top">
             <div style="overflow:auto;height:100%; width:100%">
-                <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
-                    <TR>
-                        <th width="20%" align="center">类型名称</th>
-                        <TD class="BGCgray"><input type="text"/></TD>
-                    </TR>
-                    <TR>
-                        <th align="center">类型数值</th>
-                        <TD width="80%" class="BGCgray">
-                            <input type="text"/>
-                        </TD>
-                    </TR>
-                    <TR>
-                        <th align="center">启用状态</th>
-                        <TD class="BGCgray">
-                            <input type="radio" name="status" checked/>启用<input name="status" type="radio"/>禁用
-                        </TD>
-                    </TR>
-                </table>
-                <div style="width:100%; text-align:center; padding:5px">
-                    <BUTTON style="HEIGHT:25px"
-                            onClick="javascript:if (confirm('保存信息？')) location.href='{% url 'sertype_list' %}';else return;">
-                        <img src="{% static 'images/btn_save.gif' %}" width="16" height="16" align="absmiddle"> 保存
-                    </BUTTON>
-                    <BUTTON style="HEIGHT:25px" onClick="history.back()"><img src="{% static 'images/btn_back.gif' %}"
-                                                                              width="16" height="16" align="absmiddle">
-                        返回
-                    </BUTTON>
-                </div>
+                <form action="{% url 'sertype_add' %}" method="post">
+                    <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
+                        <TR>
+                            <th width="20%" align="center">类型名称</th>
+                            <TD class="BGCgray"><input type="text" name="svctype"></TD>
+                        </TR>
+                        <TR>
+                            <th align="center">类型数值</th>
+                            <TD width="80%" class="BGCgray">
+                                <input type="text" name="money">
+                            </TD>
+                        </TR>
+                        <TR>
+                            <th align="center">启用状态</th>
+                            <TD class="BGCgray">
+                                <input type="radio" name="state" checked value="1">{{ 1|mod }}<input name="state" type="radio" value="0">{{ 0|mod }}
+                            </TD>
+                        </TR>
+                    </table>
+                    <div style="width:100%; text-align:center; padding:5px">
+                        <BUTTON type="submit" style="HEIGHT:25px">
+                            <img src="{% static 'images/btn_save.gif' %}" width="16" height="16" align="absmiddle"> 保存
+                        </BUTTON>
+                        <BUTTON type="submit" style="HEIGHT:25px" ><img
+                                src="{% static 'images/btn_back.gif' %}"
+                                width="16" height="16" align="absmiddle">
+                            返回
+                        </BUTTON>
+                    </div>
+                </form>
+
             </div>
         </td>
     </tr>

@@ -31,28 +31,39 @@
                             src="{% static 'images/btn_left.gif' %}" align="absmiddle"> 后退</a> <a href="#"
                                                                                                   class="barBtn"
                                                                                                   onClick="javascript:history.go(+1);"><img
-                            src="{% static 'images/btn_right.gif' %}" align="absmiddle"> 前进</a> <a href="#"
-                                                                                                   class="barBtn"><img
+                            src="{% static 'images/btn_right.gif' %}" align="absmiddle"> 前进</a> <a
+                            href="{% url 'org_menu_index' %}"
+                            class="barBtn"><img
                             src="{% static 'images/btn_refresh.gif' %}" align="absmiddle"> 刷新</a></td>
                 </tr>
             </table>
         </td>
     </tr>
     <tr>
+
         <td style="height:30px; background-color:#bddbff; border-bottom:1px solid #cfd8e0;">
-            <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
-                <TR>
-                    <th width="10%" align="center">菜单名称</th>
-                    <td width="20%" class="BGCgray"><input type="text" name="textfield" id="textfield"></td>
-                    <th width="10%" align="center">
-                        <BUTTON style="HEIGHT:25px"
-                                onClick="javascript:if (confirm('查询数据？')) location.href='#';else return;"><img
-                                src="{% static 'images/btn_search.gif' %}" width="16" height="16" align="absmiddle"> 查询
-                        </BUTTON>
-                    </th>
-                </TR>
-            </table>
+            {#            {% for menu in menu_all %}#}
+            <form action="{% url 'menu_find' m_find=1 %}" method="post">
+
+                {#            {% endfor %}#}
+
+                {% csrf_token %}
+                <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
+                    <TR>
+                        <th width="10%" align="center">菜单名称</th>
+                        <td width="20%" class="BGCgray"><input type="text" name="textfield" id="textfield"></td>
+                        <th width="10%" align="center">
+                            <BUTTON style="HEIGHT:25px"
+                                    onClick="javascript:if (confirm('查询数据？')) location.href='#';else return;"><img
+                                    src="{% static 'images/btn_search.gif' %}" width="16" height="16" align="absmiddle">
+                                查询
+                            </BUTTON>
+                        </th>
+                    </TR>
+                </table>
+            </form>
         </td>
+
     </tr>
     <tr>
         <td height="100%" valign="top">
@@ -75,21 +86,24 @@
                             <TD align="center">{{ menu.menu_state1 }}</TD>
                             <TD width="160" align="center">
                                 <BUTTON style="height:21px; font-size:12px"
-                                        onClick="javascript:if (confirm('查看该菜单详情？')) location.href='{% url 'menu_info' %}';else return;">
+                                        onClick="javascript:if (confirm('查看该菜单详情？')) location.href='{% url 'menu_info' m_info=menu.menu_id %}';else return;">
                                     查看
                                 </BUTTON>
                                 <BUTTON style="height:21px; font-size:12px"
-                                        onClick="javascript:if (confirm('编辑该菜单？')) location.href='{% url 'menu_edit' %}';else return;">
+                                        onClick="javascript:if (confirm('编辑该菜单？')) location.href='{% url 'menu_edit' m_edit=menu.menu_id %}';else return;">
                                     编辑
                                 </BUTTON>
                                 <BUTTON style="height:21px; font-size:12px"
-                                        onClick="javascript:if (confirm('删除该菜单？')) location.href='#';else return;">删除
+                                        onClick="javascript:if (confirm('删除该菜单？')) location.href='{% url 'menu_delete' m_delete=menu.menu_id %}' ;else return;">
+                                    删除
                                 </BUTTON>
                             </TD>
                         </TR>
+                    {% empty %}
+                        <TR>
+                            <TD colspan="6" align="center">无任何信息</TD>
+                        </TR>
                     {% endfor %}
-
-
 
 
                 </table>

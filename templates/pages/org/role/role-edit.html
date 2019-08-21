@@ -37,21 +37,24 @@
     </tr>
     <tr>
         <form action="{% url 'role_edit' edit=role_edit.role_id %}" method="post" id="form_first">
+            {% csrf_token %}
             <td height="100%" valign="top">
                 <div style="overflow:auto;height:100%; width:100%">
                     <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
                         <TR>
                             <th width="20%" align="center">角色名称</th>
-                            <TD class="BGCgray"><input type="text" name="text" value="{{ role_edit.role_name }}"/></TD>
+                            <TD class="BGCgray"><input type="text" name="text"
+                                                       value="{{ role_edit.role_name }}"/>{{ name }}</TD>
                         </TR>
                         <TR>
                             <th align="center">启用状态</th>
                             <TD class="BGCgray">
                                 {% if role_edit.role_state == 1 %}
-                                    <input type="radio" name="status" value="1" checked/>启用<input name="status" value="0" type="radio"/>禁用
+                                    <input type="radio" name="status" value="1" checked/>启用&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name="status" value="0"/>禁用
                                 {% else %}
-                                    <input type="radio" name="status" value="1">启用<input name="status" value="0" type="radio" checked/>禁用
-
+                                    <input type="radio" name="status" value="1"/>启用&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name="status" value="0" checked/>禁用
                                 {% endif %}
                             </TD>
                         </TR>
@@ -82,10 +85,3 @@
 </table>
 </body>
 </html>
-{#<script>#}
-{#    $(function () {#}
-{#        $('#back_on').click(function () {#}
-{#            window.location.href='{% url 'role_add' %}'#}
-{#        })#}
-{#    })#}
-{#</script>#}

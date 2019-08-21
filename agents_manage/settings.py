@@ -70,6 +70,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {
+                'filters': 'proxy.templatetags.filters',
+            }
         },
     },
 ]
@@ -92,7 +95,6 @@ DATABASES = {
         'PORT': 3306,  # 端口号
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
