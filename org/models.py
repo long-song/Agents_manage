@@ -129,8 +129,9 @@ class RoleMenu(models.Model):
 
 class Pic(models.Model):
     my_header = models.ImageField()
-    user = models.ForeignKey('User', on_delete=models.CASCADE)
+    user = models.ForeignKey('User', models.DO_NOTHING)
 
     class Meta:
         managed = False
-        db_table = 'pic'
+        db_table = 'org_pic'
+
