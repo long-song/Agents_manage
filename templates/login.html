@@ -11,42 +11,49 @@
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
         <td height="100%" align="center" bgcolor="#e3efff">
-            <table width="762" height="435" border="0" cellpadding="0" cellspacing="0" background="{% static 'images/loginBg.jpg' %}">
+            <table width="762" height="435" border="0" cellpadding="0" cellspacing="0"
+                   background="{% static 'images/loginBg.jpg' %}">
                 <tr>
                     <td>
-                        <table border="0" align="center" cellpadding="0" cellspacing="7">
-                            <tr>
-                                <td>用户名：</td>
-                                <td><input name="textfield3" type="text" class="inputbox"
-                                           style="width:160px;hight:20px"></td>
-                            </tr>
-                            <tr>
-                                <td>密　码：</td>
-                                <td><input name="textfield" type="text" class="inputbox" style="width:160px;hight:20px">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td height="100" colspan="2" valign="top">
-                                    <table border="0" align="center" cellpadding="0" cellspacing="5">
-                                        <tr>
-                                            <td align="center">
-                                                <BUTTON style="HEIGHT:25px"
-                                                        onClick="javascript:location.href='{% url 'main' %}'"><img
-                                                        src="{% static 'images/login_enter.gif' %}" width="16" height="16"
-                                                        align="absmiddle"> 登录
-                                                </BUTTON>
-                                            </td>
-                                            <td align="center">
-                                                <BUTTON style="HEIGHT:25px"><img src="{% static 'images/login_cancel.gif' %}"
-                                                                                 width="16" height="16"
-                                                                                 align="absmiddle"> 重置
-                                                </BUTTON>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
+                        <form method="post" action="{% url 'login' %}">
+                            {% csrf_token %}
+                            <table border="0" align="center" cellpadding="0" cellspacing="7">
+                                <tr>
+                                    <td>用户名：</td>
+                                    <td><input name="user_logname" type="text" class="inputbox"
+                                               style="width:160px;hight:20px"></td>
+                                </tr>
+                                <tr>
+                                    <td>密　码：</td>
+                                    <td><input name="user_password" type="password" class="inputbox"
+                                               style="width:160px;hight:20px">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td height="100" colspan="2" valign="top">
+                                        <table border="0" align="center" cellpadding="0" cellspacing="5">
+                                            <tr>
+                                                <td align="center">
+                                                    <button type="submit" style="HEIGHT:25px"><img
+                                                            src="{% static 'images/login_enter.gif' %}" width="16"
+                                                            height="16"
+                                                            align="absmiddle"> 登录
+                                                    </button>
+                                                </td>
+                                                <td align="center">
+                                                    <button type="reset" style="HEIGHT:25px"><img
+                                                            src="{% static 'images/login_cancel.gif' %}" width="16"
+                                                            height="16"
+                                                            align="absmiddle"> 重置
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                        {{ errmsg }}
                     </td>
                 </tr>
             </table>

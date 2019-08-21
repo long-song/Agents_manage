@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -88,7 +88,7 @@ DATABASES = {
         'NAME': 'Agents_manage',  # 数据库名
         'USER': 'root',  # 用户名
         'PASSWORD': 'root',  # 密码
-        'HOST': '172.16.43.27',  # 主机名
+        'HOST': '172.16.43.160',  # 主机名
         'PORT': 3306,  # 端口号
     }
 }
@@ -134,3 +134,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
+
+# 指定上传图片的文件路径
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/media')
+

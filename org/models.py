@@ -1,6 +1,18 @@
 from django.db import models
 
+
 # Create your models here.
+
+class Pic(models.Model):
+    my_header = models.ImageField()
+    user = models.ForeignKey('User', on_delete=models.CASCADE, null=True)
+
+
+class Meta:
+    managed = False
+    db_table = 'org_pic'
+
+
 class User(models.Model):
     user_id = models.AutoField(primary_key=True)
     user_realname = models.CharField(max_length=20, blank=True, null=True)
@@ -25,15 +37,13 @@ class User(models.Model):
 
 
 class UserRole(models.Model):
-    user = models.ForeignKey('User', models.DO_NOTHING)
+    user = models.ForeignKey('User', models.DO_NOTHING, primary_key=True)
     role = models.ForeignKey('Role', models.DO_NOTHING)
 
     class Meta:
         managed = False
         db_table = 'user_role'
         unique_together = (('user', 'role'),)
-
-
 
 
 class Menu(models.Model):

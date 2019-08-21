@@ -1,7 +1,6 @@
 <html>
 <head>
     {% load static %}
-    {% csrf_token %}
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
@@ -39,23 +38,21 @@
     <tr>
         <td height="100%" valign="top">
             <div style="overflow:auto;height:100%; width:100%">
-                <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
-                    <TR>
-                        <th width="20%" align="center">个人头像</th>
-                        <TD class="BGCgray"><input type="file"/></TD>
-                    </TR>
+                <form method="post" action="{% url 'self_user_pic' %}" enctype="multipart/form-data">
+                    <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
+                        <TR>
+                            <th width="20%" align="center">个人头像</th>
+                            <TD class="BGCgray"><input type="file" name="my_header"></TD>
+                        </TR>
+                    </table>
+                    <div style="width:100%; text-align:center; padding:5px">
 
-
-                </table>
-                <div style="width:100%; text-align:center; padding:5px">
-                    <BUTTON style="HEIGHT:25px" onClick="javascript:if (confirm('确定上传？')) alert('操作成功！');else return;">
-                        <img src="{% static 'images/btn_save.gif' %}" width="16" height="16" align="absmiddle"> 上传
-                    </BUTTON>
-                    <BUTTON style="HEIGHT:25px" onClick="history.back()"><img src="{% static 'images/btn_back.gif' %}"
-                                                                              width="16" height="16" align="absmiddle">
-                        返回
-                    </BUTTON>
-                </div>
+                        <BUTTON type="submit" style="HEIGHT:25px">
+                            <img src="{% static 'images/btn_save.gif' %}" width="16" height="16" align="absmiddle"> 上传
+                        </BUTTON>
+                    </div>
+                </form>
+            </div>
             </div>
         </td>
     </tr>

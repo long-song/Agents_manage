@@ -32,6 +32,7 @@
                         <a href="#" class="barBtn"><img src="{% static 'images/btn_refresh.gif' %}" align="absmiddle">
                             刷新</a>
                     </td>
+
                 </tr>
             </table>
         </td>
@@ -39,58 +40,44 @@
     <tr>
         <td height="100%" valign="top">
             <div style="overflow:auto;height:100%; width:100%">
-                <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
+                    <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
                     <TR>
-                        <th width="20%" align="center">个人头像</th>
-                        <TD class="BGCgray"><img src="" width="80px" height="100px"/><input type="button" value="上传" onclick="location.href='{% url 'self_user_pic' %}'">头像</TD>
+                        <th width="20%" align="center" >个人头像</th>
+                        <TD class="BGCgray"><img src="{% static pic.my_header.url %}" width="80px" height="80px"/><input type="button" name="my_header" value="上传"
+                                                                                            onclick="location.href='{% url 'self_user_pic' %}'"></TD>
                     </TR>
+
                     <TR>
                         <th width="20%" align="center">登录账号</th>
-                        <TD class="BGCgray"><input type="text" value="admin"/></TD>
-                    </TR>
-                    <TR>
-                        <th width="20%" align="center">登录密码</th>
-                        <TD class="BGCgray"><input type="password" value="admin"/></TD>
+                        <TD class="BGCgray">{{ user.user.user_logname }}</TD>
                     </TR>
                     <TR>
                         <th width="20%" align="center">真实姓名</th>
-                        <TD class="BGCgray"><input type="password"/></TD>
+                        <TD class="BGCgray">{{ user.user.user_realname }}</TD>
                     </TR>
                     <TR>
                         <th align="center">身份证</th>
-                        <TD width="80%" class="BGCgray"><input type="text"/></TD>
+                        <TD width="80%" class="BGCgray">{{ user.user.user_idcard }}</TD>
                     </TR>
                     <TR>
                         <th align="center">性别</th>
-                        <TD width="80%" class="BGCgray"><input type="text"/></TD>
+                        <TD width="80%" class="BGCgray">{{ user.user.user_sex }}</TD>
                     </TR>
                     <TR>
                         <th align="center">地址</th>
-                        <TD width="80%" class="BGCgray"><input type="text"/></TD>
+                        <TD width="80%" class="BGCgray">{{ user.user.user_address }}</TD>
                     </TR>
                     <TR>
                         <th align="center">邮箱</th>
-                        <TD width="80%" class="BGCgray"><input type="text"/></TD>
+                        <TD width="80%" class="BGCgray">{{ user.user.user_email }}</TD>
                     </TR>
                     <TR>
                         <th align="center">联系电话</th>
-                        <TD width="80%" class="BGCgray"><input type="text"/></TD>
-                    </TR>
-                    <TR>
-                        <th align="center">启用状态</th>
-                        <TD class="BGCgray">
-                            <input type="radio" name="status" checked/>启用<input type="radio" name="status"/>禁用
-                        </TD>
+                        <TD width="80%" class="BGCgray">{{ user.user.user_phone }}</TD>
                     </TR>
                     <TR>
                         <th align="center"><span class="BGCgray">角色</span></th>
-                        <TD class="BGCgray">
-                            <select>
-                                <option>--请选择--</option>
-                                <option selected>管理员</option>
-                                <option>经理</option>
-                                <option>职工</option>
-                            </select>
+                        <TD class="BGCgray">{{ user.role.role_name }}
                         </TD>
                     </TR>
                 </table>
