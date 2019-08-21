@@ -1,10 +1,12 @@
 <html>
 <head>
     {% load static %}
+    {% load filters %}
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title></title>
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/jquery1.9.0.min.js' %}"></script>
 </head>
 <body>
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="3">
@@ -20,17 +22,20 @@
         <td style="height:34px; background-image:url({% static 'images/main_header.gif' %}); border-bottom:1px solid #cfd8e0; padding:0px">
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <td width="20" height="34"><img src="{% static 'images/main_headerL.gif' %}" width="20" height="34"></td>
+                    <td width="20" height="34"><img src="{% static 'images/main_headerL.gif' %}" width="20" height="34">
+                    </td>
                     <td style="color:#90c8e8;"><img src="{% static 'images/icon_card.gif' %}" width="16" height="16"
                                                     align="absmiddle">&nbsp;&nbsp;<strong>证件类型</strong></td>
                     <td align="right" class="white" style="padding-right:20px">
-                        <a href="{% url 'license_add' %}" class="barBtn"><img src="{% static 'images/5.png' %}" align="absmiddle">
-                        新增</a>
+                        <a href="{% url 'license_add' %}" class="barBtn"><img src="{% static 'images/5.png' %}"
+                                                                              align="absmiddle">
+                            新增</a>
                         <a href="#" class="barBtn" onClick="javascript:history.go(-1);"><img
                                 src="{% static 'images/btn_left.gif' %}" align="absmiddle"> 后退</a>
                         <a href="#" class="barBtn" onClick="javascript:history.go(+1);"><img
                                 src="{% static 'images/btn_right.gif' %}" align="absmiddle"> 前进</a>
-                        <a href="#" class="barBtn"><img src="{% static 'images/btn_refresh.gif' %}" align="absmiddle"> 刷新</a>
+                        <a href="javascript:location.reload();" class="barBtn"><img
+                                src="{% static 'images/btn_refresh.gif' %}" align="absmiddle"> 刷新</a>
                     </td>
                 </tr>
             </table>
@@ -63,99 +68,110 @@
                         <th align="center">是否启用</th>
                         <th align="center">操作</th>
                     </TR>
-                    <TR>
-                        <TD align="center"><input type="checkbox" name="checkbox2" id="checkbox2"></TD>
-                        <TD align="center">1</TD>
-                        <TD align="center">国内身份证</TD>
-                        <TD align="center">启用</TD>
-                        <TD width="160" align="center">
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:if (confirm('查看该菜单详情？')) location.href='{% url 'license_info' %}';else return;">
-                                查看
-                            </BUTTON>
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:if (confirm('编辑该菜单？')) location.href='{% url 'license_edit' %}';else return;">
-                                编辑
-                            </BUTTON>
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:if (confirm('删除该菜单？')) alert('操作成功！');else return;">删除
-                            </BUTTON>
-                        </TD>
-                    </TR>
-                    <TR>
-                        <TD align="center"><input type="checkbox" name="checkbox2" id="checkbox2"></TD>
-                        <TD align="center">2</TD>
-                        <TD align="center">境外身份证</TD>
-                        <TD align="center">启用</TD>
-                        <TD width="160" align="center">
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:if (confirm('查看该菜单详情？')) location.href='{% url 'license_info' %}';else return;">
-                                查看
-                            </BUTTON>
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:if (confirm('编辑该菜单？')) location.href='{% url 'license_edit' %}';else return;">
-                                编辑
-                            </BUTTON>
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:if (confirm('删除该菜单？')) alert('操作成功！');else return;">删除
-                            </BUTTON>
-                        </TD>
-                    </TR>
-                    <TR>
-                        <TD align="center"><input type="checkbox" name="checkbox2" id="checkbox2"></TD>
-                        <TD align="center">3</TD>
-                        <TD align="center">营业执照</TD>
-                        <TD align="center">启用</TD>
-                        <TD width="160" align="center">
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:if (confirm('查看该菜单详情？')) location.href='{% url 'license_info' %}';else return;">
-                                查看
-                            </BUTTON>
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:if (confirm('编辑该菜单？')) location.href='{% url 'license_edit' %}';else return;">
-                                编辑
-                            </BUTTON>
-                            <BUTTON style="height:21px; font-size:12px"
-                                    onClick="javascript:if (confirm('删除该菜单？')) alert('操作成功！');else return;">删除
-                            </BUTTON>
-                        </TD>
-                    </TR>
-
-
+                    {% for license in page.object_list %}
+                        <tr>
+                            <td align="center"><input type="checkbox" name="checkbox2" id="checkbox2"></td>
+                            <td align="center">{{ license.id }}</td>
+                            <td align="center"><a href="{% url 'license_info' %}?id={{ license.id }}"
+                                                  style="color: #0e0e0e">{{ license.licstype }}</a></td>
+                            <td align="center">{{ license.state|mod }}</td>
+                            <td align="center">
+                                <BUTTON style="height:21px; font-size:12px"
+                                        onClick="javascript: location.href='{% url 'license_info' %}?id={{ license.id }}';">
+                                    查看
+                                </BUTTON>
+                                <BUTTON style="height:21px; font-size:12px"
+                                        onClick="javascript: location.href='{% url 'license_edit' %}?id={{ license.id }}';">
+                                    编辑
+                                </BUTTON>
+                                <BUTTON style="height:21px; font-size:12px" class="del">删除</BUTTON>
+                            </td>
+                        </tr>
+                    {% endfor %}
                 </table>
-                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <table style="margin: auto" border="0" cellspacing="0" cellpadding="0">
                     <tr>
-                        <td width="20%" height="25">
-                            <table border="0" cellspacing="0" cellpadding="3">
-                                <tr>
-                                    <td><a href="#"><img src="{% static 'images/prev_top.gif' %}" width="16" height="16"
-                                                         border="0" title="首页"></a></td>
-                                    <td><a href="#"><img src="{% static 'images/prev.gif' %}" width="16" height="16"
-                                                         border="0" title="上一页"></a></td>
-                                    <td><a href="#"><img src="{% static 'images/next.gif' %}" width="16" height="16"
-                                                         border="0" title="下一页"></a></td>
-                                    <td><a href="#"><img src="{% static 'images/prev_end.gif' %}" width="16" height="16"
-                                                         border="0" title="尾页"></a></td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td width="20%" align="center">
-                            <table border="0" cellspacing="0" cellpadding="3">
-                                <tr>
-                                    <td><a href="#"><img src="{% static 'images/next.gif' %}" width="16" height="16"
-                                                         border="0"></a></td>
-                                    <td><input name="textfield23" type="text" size="3" style="width:25px;height:18px">
-                                        /页
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td width="20%" align="right">共10条记录显示到1/1</td>
+                        <td><a href="?license-list=1"><img src="{% static 'images/prev_top.gif' %}" width="16"
+                                                           height="16"
+                                                           border="0" title="首页"></a></td>
+                        {# 如果当前页还有上一页 #}
+                        {% if page.has_previous %}
+                            <td>{# 点击a标签，跳转到上一页链接 ?index  为地址后面拼接的参数 #}
+                                <a href="?license-list={{ page.previous_page_number }}"><img
+                                        src="{% static 'images/prev.gif' %}" width="16" height="16"
+                                        border="0" title="上一页"></a></td>
+                        {% else %}
+                            {# 如果没有上一页， 则上一页按钮不可点击 #}
+                            <td class="disabled">
+                                <a href="#"><img src="{% static 'images/prev.gif' %}" width="16" height="16"
+                                                 border="0" title="上一页"></a></a>
+                            </td>
+                        {% endif %}
+                        {% for page_number in paginator.page_range %}
+                            {# 获取当前页的页码 #}
+                            {% if page_number == page.number %}
+                                {# 如果是当前页的话，选中 #}
+                                <td class="active">
+                                    <a href="?license-list={{ page_number }}"
+                                       style="color: #0e0e0e">{{ page_number }}</a>
+                                </td>
+                            {% else %}
+                                <td>
+                                    <a href="?license-list={{ page_number }}"
+                                       style="color: #0e0e0e">{{ page_number }}</a>
+                                </td>
+                            {% endif %}
+                        {% endfor %}
+                        {% if page.has_next %}
+                            <td>
+                                <a href="?license-list={{ page.next_page_number }}"><img
+                                        src="{% static 'images/next.gif' %}" width="16" height="16"
+                                        border="0" title="下一页"></a>
+                            </td>
+                        {% else %}
+                            <td class="disabled">
+                                <a href="#"><img
+                                        src="{% static 'images/next.gif' %}" width="16" height="16"
+                                        border="0" title="下一页"></a>
+                            </td>
+                        {% endif %}
+                        <td><a href="?license-list={{ paginator.page_range|length }}"><img
+                                src="{% static 'images/prev_end.gif' %}"
+                                width="16" height="16"
+                                border="0" title="尾页"></a></td>
+                        <td width="20%" align="right">
+                            共{{ page.object_list|length }}条记录显示到{{ page.number }}/{{ paginator.page_range|length }}</td>
                     </tr>
                 </table>
+
             </div>
         </td>
     </tr>
 </table>
+<script>
+    $(function () {
+        $('.state').click(function () {
+            var id = $(this).parent().parent().find("td:eq(1)").text();
+            id = parseInt(id);
+            var state = $(this).val();
+            $.post('{% url 'license_list' %}', {'id': id, 'state': state},
+                function (data) {
+                    alert(data.state);
+                    window.location.reload();
+                }
+            )
+        });
+        $('.del').click(function () {
+            var id = $(this).parent().parent().find("td:eq(1)").text();
+            id = parseInt(id);
+            $.post('{% url 'license_del' %}', {'id': id},
+                function (data) {
+                    alert(data.del);
+                    window.location.reload();
+                }
+            )
+        })
+    })
+</script>
 </body>
 </html>
