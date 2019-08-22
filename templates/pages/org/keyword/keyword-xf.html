@@ -1,84 +1,134 @@
 ﻿<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title></title>
-<link href="../../../css/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="../../../js/main.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    {% load static %}
+    <title></title>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/jquery1.9.0.min.js' %}"></script>
+    <script>
+        $(function () {
+            $("#s_serve_year").change(function () {
+                s_serve=$("#s_serve").val();
+                if (s_serve == '--请选择--'){
+                    alert("请选择服务类别")
+                }else{
+                    s_serve_year=$(this).val();
+                    $.ajax({
+                        'url':'/org/keyword_xf_ajax',
+                        'type':'get',
+                        'dataType':'json',
+                        'data':{'server':s_serve,'server_year':s_serve_year}
+                    }).success(function (data) {
+                        alert(data.price)
+                        $(".price").val(data.price)
+                    })
+                }
+            })
+            /*$("#s_serve").change(function () {
+                s_serve_year=$("#s_serve").val()
+                if (s_serve_year == '--请选择--'){
+                    alert("请选择服务年限")
+                }else{
+                    s_serve=$(this).val()
+                    $.ajax({
+                        'url':'/org/keyword_xf_ajax',
+                        'type':'get',
+                        'dataType':'json',
+                        'data':{'server':s_serve,'server_year':s_serve_year}
+                    })
+                }
+            })*/
+        })
+    </script>
 </head>
 <body>
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="3">
-
-   <tr>
-    <td style="height:34px; background-image:url(../../../images/main_header.gif); border-bottom:1px solid #cfd8e0; padding:0px">
-      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <form action="{% url 'keyword_xf' %}" method="post">
         <tr>
-          <td width="20" height="34"><img src="../../../images/main_headerL.gif" width="20" height="34"></td>
-          <td style="color:#90c8e8;"><img src="../../../images/icon_card.gif" width="16" height="16" align="absmiddle">&nbsp;&nbsp;<strong>当前为【112】进行续费操作
+            <td style="height:34px; background-image:url({% static 'images/main_header.gif' %}); border-bottom:1px solid #cfd8e0; padding:0px">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="20" height="34"><img src="{% static 'images/main_headerL.gif' %}" width="20"
+                                                        height="34">
+                        </td>
+                        <td style="color:#90c8e8;"><img src="{% static 'images/icon_card.gif' %}" width="16" height="16"
+                                                        align="absmiddle">&nbsp;&nbsp;<strong>当前为{{ keyquery.user.user_logname }}进行续费操作
 
-</strong></td>
+                        </strong></td>
+                    </tr>
+                </table>
+            </td>
         </tr>
-    </table></td>
-  </tr>
-  <tr>
-	<td style="height:30px; background-color:#bddbff; border-bottom:1px solid #cfd8e0;">
-		<table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
- 		</table>
-	</td>
-  </tr>
-  <tr>
-    <td height="100%" valign="top">
-    <div style="overflow:auto;height:100%; width:100%">
-	
-      <table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" class="table1">
-	<tr>
-		<td  colspan="2">为112续费【当前账户余额：￥15758002.02】</td>
-	</tr>
-	<tr>
-		<td>客户名称：</td>
-		<td><input type = "text" name="" value="999999"></td>
-	</tr>
-	<tr>
-		<td >关键词：</td><td><input type = "password" name="" value="112"></td>
-	</tr>
-	<tr>
-		<td>服务类别：</td><td><select name="">
-			<option value="上传苹果商城">上传苹果商城</option>
-			<option value="不上传苹果商城">不上传苹果商城</option>
-		</select></td>
-	</tr>
-	<tr>
-		<td>服务年限：</td><td><select name="">
-			<option value="--请选择--">--请选择--</option>
-			<option value="1年">1年</option>
-			<option value="2年">2年</option>
-			<option value="3年">3年</option>
-			<option value="4年">4年</option>
-			<option value="5年">5年</option>
-			<option value="6年">6年</option>
-			<option value="7年">7年</option>
-			<option value="8年">8年</option>
-			<option value="9年">9年</option>
-			<option value="10年">10年</option>
-		</select></td>
-	</tr>
-	<tr>
-		<td>价格</td>
-		<td><input type = "text" name=""></td>
-	</tr>
-         
-          
- 
-        
-      </table>
-      <div style="width:100%; text-align:center; padding:5px">
-        <BUTTON style="HEIGHT:25px" onClick="javascript:if(confirm('确认续费？')){alert('操作成功！');window.close();};"><img 
+        <tr>
+            <td style="height:30px; background-color:#bddbff; border-bottom:1px solid #cfd8e0;">
+                <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td height="100%" valign="top">
+                <div style="overflow:auto;height:100%; width:100%">
 
-src="../../../images/btn_save.gif" width="16" height="16" align="absmiddle">续费提交</BUTTON>
-        
-      </div>
-    </div>
-  </td>
-  </tr>
+                    <table align="center" width="100%" border="0" cellpadding="0" cellspacing="0" class="table1">
+                        <tr>
+                            <td colspan="2">为{{ keyquery.user.user_logname }}续费【当前账户余额：￥{{ keyquery.user.user_caiwu }}】</td>
+                        </tr>
+                        <tr>
+                            <td>客户名称：</td>
+                            <td><input type="text" name="" value="{{ keyquery.cid.cname }}"></td>
+                        </tr>
+                        <tr>
+                            <td>关键词：</td>
+                            <td><input type="password" name="" value="{{ keyquery.keyword_name }}"></td>
+                        </tr>
+                        <tr>
+                            <td>服务类别：</td>
+                            <td><select id="s_serve" name="s_serve" >
+                                <option value="{{ keyquery.keyword_class }}" >{{ keyquery.keyword_class }}</option>
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <td>服务年限：</td>
+                            <td><select id="s_serve_year" name="s_serve_year">
+                                <option value="--请选择--">--请选择--</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <td>价格</td>
+                            <td><input type="text" class="price" name="price"></td>
+                        </tr>
+                        <tr>
+                            <input type="text" hidden="hidden" name="key_id" value="{{ keyquery.keyword_id }}">
+                            <input type="text" hidden="hidden" name="old_year" value="{{ keyquery.keywprd_years }}">
+                            <input type="text" hidden="hidden" name="old_price" value="{{ keyquery.keyword_price }}">
+                            <input type="text" hidden="hidden" name="old_date" value="{{ keyquery.keyword_date }}">
+                        </tr>
+
+
+                    </table>
+                    <div style="width:100%; text-align:center; padding:5px">
+                        <BUTTON style="HEIGHT:25px"
+                                onClick="javascript:if(confirm('确认续费？')){alert('操作成功！');window.close();};"><img
+
+                                src="{% static 'images/btn_save.gif' %}" width="16" height="16" align="absmiddle">续费提交
+                        </BUTTON>
+                        {{ errmsg }}
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </form>
 </table>
 </body>
 </html>

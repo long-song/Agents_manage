@@ -1,99 +1,198 @@
 ﻿<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title></title>
-<link href="../../../css/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="../../../js/main.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    {% load static %}
+    <title></title>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/jquery1.9.0.min.js' %}"></script>
+    <script>
+        $(function () {
+            //验证客户
+            $("#bajax").click(function () {
+                sourch = $("#textfield").val();
+                $.ajax({
+                    'url': '/org/keyword_edit_ajax',
+                    'type': 'get',
+                    'dataType': 'json',
+                    'data': {'sourch': sourch}
+                }).success(function (data) {
+                    if (data.flag == 0) {
+                        alert(data.error)
+                    } else {
+                        alert(data.keyname)
+                        $(".sourch1").val(data.keyname);
+                    }
+                })
+            })
+            //验证关键词
+            $("#key_name").change(function () {
+                key_name = $("#key_name").val()
+                $.ajax({
+                    'url': '/org/keyword_key_name_ajax',
+                    'type': 'get',
+                    'dataType': 'json',
+                    'data': {'key_name': key_name}
+                }).success(function (data) {
+                    if (data.flag == 0) {
+                        alert(data.error)
+                    } else {
+                        {#alert(data.key_name)#}
+                    }
+                })
+            })
+            //选择服务类型，服务年限，计算价格
+            $("#u5_input").change(function () {
+                {#u4_input=$(this).parent().parent().parent().find("tr:eq(2)").find("td:eq(0)").find('#u4_input').val()#}
+                u4_input = $("#u4_input").val();
+                if (u4_input == '—请选择—') {
+                    alert('请选择服务类别')
+                } else {
+                    u5_input = $(this).val();
+                    $.ajax({
+                        'url': '/org/keyword_key_price_ajax',
+                        'type': 'get',
+                        'dataType': 'json',
+                        'data': {'u4_input': u4_input, 'u5_input': u5_input}
+                    }).success(function (data) {
+                        alert(data.price)
+                        $(".price2").val(data.price)
+                    })
+                }
+            })
+            $("#u4_input").change(function () {
+                u5_input = $("#u5_input").val();
+                if (u5_input == '—请选择—') {
+                    alert('请选择服务年限')
+                } else {
+                    u4_input = $(this).val();
+                    $.ajax({
+                        'url': '/org/keyword_key_price_ajax',
+                        'type': 'get',
+                        'dataType': 'json',
+                        'data': {'u4_input': u4_input, 'u5_input': u5_input}
+                    }).success(function (data) {
+                        alert(data.price)
+                        $(".price2").val(data.price)
+                    })
+                }
+            })
+
+        })
+    </script>
+
 </head>
 <body>
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="3">
-  <tr>
-    <td style="height:25px; background-color:#f3f3f3; font-weight:bold" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;当前位置： <img src="../../../images/arrow.gif" 
-
-align="absmiddle">&nbsp;&nbsp;代理商管理系统&nbsp;&nbsp; <img src="../../../images/arrow.gif" align="absmiddle">&nbsp;&nbsp;&nbsp;&nbsp;代理商管理 <img 
-
-src="../../../images/arrow.gif" align="absmiddle">&nbsp;&nbsp;关键字申请</td>
-  </tr>
-   <tr>
-    <td style="height:34px; background-image:url(../../../images/main_header.gif); border-bottom:1px solid #cfd8e0; padding:0px">
-      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <form action="{% url 'keyword_edit' %}" method="post">
+        {% csrf_token %}
         <tr>
-          <td width="20" height="34"><img src="../../../images/main_headerL.gif" width="20" height="34"></td>
-          <td style="color:#90c8e8;"><img src="../../../images/icon_card.gif" width="16" height="16" align="absmiddle">&nbsp;&nbsp;<strong>代理商客户管理
+            <td style="height:25px; background-color:#f3f3f3; font-weight:bold" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;当前位置：
+                <img src="{% static 'images/arrow.gif' %}"
 
-</strong></td>
-          <td align="right" class="white" style="padding-right:20px"> 
-		  <a href="#" class="barBtn" onClick="javascript:history.go(-1);"><img src="../../../images/btn_left.gif" align="absmiddle"> 后退</a> 
-		  <a href="#" class="barBtn" onClick="javascript:history.go(+1);"><img src="../../../images/btn_right.gif" align="absmiddle"> 前进</a> 
-		  <a href="#" class="barBtn"><img src="../../../images/btn_refresh.gif" align="absmiddle"> 刷新</a>
-		  </td>
+                     align="absmiddle">&nbsp;&nbsp;代理商管理系统&nbsp;&nbsp; <img src="{% static 'images/arrow.gif' %}"
+                                                                            align="absmiddle">&nbsp;&nbsp;&nbsp;&nbsp;代理商管理
+                <img
+
+                        src="{% static 'images/arrow.gif' %}" align="absmiddle">&nbsp;&nbsp;关键字申请
+            </td>
         </tr>
-    </table></td>
-  </tr>
-  <tr>
-    <td style="height:30px; background-color:#bddbff; border-bottom:1px solid #cfd8e0;"><table width="100%" border="0" cellpadding="3" cellspacing="1" 
+        <tr>
+            <td style="height:34px; background-image:url({% static 'images/main_header.gif' %}); border-bottom:1px solid #cfd8e0; padding:0px">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="20" height="34"><img src="{% static 'images/main_headerL.gif' %}" width="20"
+                                                        height="34">
+                        </td>
+                        <td style="color:#90c8e8;"><img src="{% static 'images/icon_card.gif' %}" width="16" height="16"
+                                                        align="absmiddle">&nbsp;&nbsp;<strong>代理商客户管理
 
-class="table1">
-      <TR>
-        <th width="10%" align="center">搜索客户：
-        <td width="20%" class="BGCgray"><input type="text" name="textfield" id="textfield">输入后自动搜索<font color=red>【当前账户余额：¥ 15758002.02】</font>
+                        </strong></td>
+                        <td align="right" class="white" style="padding-right:20px">
+                            <a href="#" class="barBtn" onClick="javascript:history.go(-1);"><img
+                                    src="{% static 'images/btn_left.gif' %}" align="absmiddle"> 后退</a>
+                            <a href="#" class="barBtn" onClick="javascript:history.go(+1);"><img
+                                    src="{% static 'images/btn_right.gif' %}" align="absmiddle"> 前进</a>
+                            <a href="#" class="barBtn"><img src="{% static 'images/btn_refresh.gif' %}"
+                                                            align="absmiddle">
+                                刷新</a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="height:30px; background-color:#bddbff; border-bottom:1px solid #cfd8e0;">
+                <table width="100%" border="0" cellpadding="3" cellspacing="1"
 
-</div></th></td>
-        <th width="10%" align="center"></th>
-        </TR>
-    </table></td>
-  </tr>
-  <tr>
-    <td height="100%" valign="top">
-    <div style="overflow:auto;height:100%; width:100%">
-      <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
-        <TR>
-          <th width="20%" align="center">客户名称</th>
-          <TD class="BGCgray"><input type="text"/></TD>
-        </TR>
-	<TR>
-          <th width="20%" align="center">关键词</th>
-          <TD class="BGCgray"><input type="text"/></TD>
-        </TR>
-	<TR>
-          <th width="20%" align="center">服务类别</th>
-	<TD class="BGCgray">
-			<select id="u2_input">
-				<option selected value="—请选择—">—请选择—</option>
-				<option value="上传苹果商城">上传苹果商城</option>
-				<option value="不上传苹果商城">不上传苹果商城</option>
-			</select>
-	</TD>
-        </TR>
+                       class="table1">
+                    <TR>
+                        <th width="5.2%" align="center">搜索客户：
+                        <td width="10%" class="BGCgray">
+                            <input type="text" id="textfield" name="textfield"><font
+                                color=red>【当前账户余额：¥ 15758002.02】</font>
+                            </div>
+                        </th></td>
+                        <th width="10%" align="center"><input type="button" id="bajax" value="查找客户"></th>
+                    </TR>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td height="100%" valign="top">
+                <div style="overflow:auto;height:100%; width:100%">
+                    <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
+                        <TR>
+                            <th width="20%" align="center">客户名称</th>
+                            <TD class="BGCgray"><input class='sourch1' name="sourch" type="text" value="{{ textfield }}"/></TD>
+                        </TR>
+                        <TR>
+                            <th width="20%" align="center">关键词</th>
+                            <TD class="BGCgray"><input id="key_name" name="key_name" type="text"/></TD>
+                            {{ key_error }}
+                        </TR>
+                        <TR>
+                            <th width="20%" align="center">服务类别</th>
+                            <TD class="BGCgray">
+                                <select id="u4_input" name="u4_input">
+                                    <option selected value="—请选择—">—请选择—</option>
+                                    <option value="上传苹果商城">上传苹果商城</option>
+                                    <option value="不上传苹果商城">不上传苹果商城</option>
+                                </select>
+                            </TD>
+                        </TR>
 
-	<TR>
-          <th width="20%" align="center">服务年限</th>
-	<TD class="BGCgray">
-			<select id="u2_input">
-				<option selected value="—请选择—">—请选择—</option>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="买二赠一">买二赠一</option>
-			</select>
-	</TD>
-        </TR>
+                        <TR>
+                            <th width="20%" align="center">服务年限</th>
+                            <TD class="BGCgray">
+                                <select id="u5_input" name="u5_input">
+                                    <option selected value="—请选择—">—请选择—</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="买二赠一">买二赠一</option>
+                                </select>
+                            </TD>
+                        </TR>
 
-        <TR>
-          <th align="center">价格</th>
-          <TD width="80%" class="BGCgray"><input type="text" /></TD>
-        </TR>
-        
-      </table>
-      <div style="width:100%; text-align:center; padding:5px">
-        <BUTTON style="HEIGHT:25px" onClick="javascript:if (confirm('保存信息？')) location.href='#';else return;"><img 
+                        <TR>
+                            <th align="center">价格</th>
+                            <TD width="80%" class="BGCgray"><input class="price2" name="price" type="text"/></TD>
+                        </TR>
 
-src="../../../images/btn_save.gif" width="16" height="16" align="absmiddle">提交信信息</BUTTON>
-        
-      </div>
-    </div>
-  </td>
-  </tr>
+                    </table>
+                    <div style="width:100%; text-align:center; padding:5px">
+                        <BUTTON style="HEIGHT:25px"
+                                onClick="javascript:if (confirm('保存信息？')) location.href='#';else return;"><img
+
+                                src="{% static 'images/btn_save.gif' %}" width="16" height="16" align="absmiddle">提交信息
+                        </BUTTON>
+                        {{ error }}
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </form>
 </table>
 </body>
 </html>

@@ -1,9 +1,27 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.views.generic import View
 
+from django.shortcuts import render, HttpResponse, redirect
+from django.http import JsonResponse
+from django.shortcuts import render, HttpResponse, redirect
+from django.views.generic import View
+
 from .models import *
 from proxy.models import User
 from django.core.paginator import Paginator
+from sys_config.models import *
+from report.models import *
+from website.models import *
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import re
+
+from proxy.models import *
+from sys_config.models import *
+from website.models import *
+import datetime, time
+from django.core.paginator import Paginator
+from django.views.decorators.csrf import csrf_exempt
 from sys_config.models import *
 from report.models import *
 from website.models import *
@@ -594,31 +612,349 @@ def keyword_add(request):
     :param request:
     :return:
     '''
-    # if request.method == 'GET':
-    return render(request, 'pages/org/keyword/keyword-add.html')
-    # else:
-    #     sourch = request.POST.get('sourch')
-    #     name = request.POST.get('name')
-    #     keyword = request.POST.get('keyword')
-    #     service = request.POST.get('service')
-    #     service_year = request.POST.get('service_year')
-    #     price = request.POST.get('price')
-    # print(sourch,name,keyword,service,service_year,price)
+
+    if request.method == 'GET':
+        return render(request, 'pages/org/keyword/keyword-add.html')
+    else:
+        sourch = request.POST.get('sourch')
+        kname = request.POST.get('name')
+        keyword = request.POST.get('keyname')
+        service = request.POST.get('u2_input')
+        service_year = request.POST.get('u3_input')
+        prince = request.POST.get('price')
+        nowtime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # 计算到期时间
+        datatime = datetime.datetime.now().strftime("-%m-%d %H:%M:%S")
+        year = datetime.datetime.now().strftime("%Y")
+        service_years = int(service_year)
+        stopdate = int(year) + int(service_years)
+        expiretime = str(stopdate) + str(datatime)
+        last_time = datetime.datetime.strptime(expiretime, "%Y-%m-%d %H:%M:%S")
+        # print(last_time)
+        # 获取当前登录用户的id
+        # u_id = request.session['user_logname']
+
+        # 判断数据是否为空
+        if not all([sourch, kname, keyword, service, service_year]):
+            return render(request, 'pages/org/keyword/keyword-add.html', {'error': '输入信息不完整'})
+
+        else:
+            k = Keyword()
+            k.keyword_name = keyword
+            k.keyword_class = service
+            k.keywprd_years = service_year
+            k.keyword_price = prince
+            k.keyword_newdate = nowtime
+            k.keyword_date = last_time
+            k.save()
+            return render(request, 'pages/org/keyword/keyword-add.html')
 
 
-def keyword_check(request):
-    '''
+def keyword_add_ajax(request):
+    kname = request.GET.get('kname')
+    # print(kname)
+    try:
+        client = Company.objects.get(cname=kname)
+    except:
+        return JsonResponse({'flag': 0, 'error': '客户不存在'})
+    else:
+        return JsonResponse({'kname': kname})
+
+
+def keyword_word_ajax(request):
+    keyname = request.GET.get('keyname')
+    # print(keyname)
+    try:
+        keyname_alone = Keyword.objects.get(keyword_name=keyname)
+    except:
+        return JsonResponse({"flag": "未注册，请继续"})
+    else:
+        return JsonResponse({'flag': 0, 'error': '关键词已存在，请更换'})
+
+
+def keyword_price_ajax(request):
+    service = request.GET.get('service')
+    service_year = request.GET.get('service_year')
+    util_price = ServinceTb.objects.get(svctype=service).money
+    if service_year == '1' or service_year == '2' or service_year == '3':
+        price = int(util_price) * int(service_year)
+        return JsonResponse({'price': price})
+    elif service_year == '买二赠一':
+        price = int(util_price) * int(2)
+        return JsonResponse({'price': price})
+    else:
+        price = ' '
+        return JsonResponse({'price': price})
+
+
+def keyword_check(request, pindex=1):
+    """
     关键词申请管理
+    分页
+    :param request:
+    :param pindex:
+    :return:
+    """
+    text_query = Keyword.objects.all()
+    paginator = Paginator(text_query, 5)
+    # print(paginator.num_pages)
+    # print(list(paginator.page_range))
+    if pindex == '':
+        pindex = 1
+    else:
+        pindex = int(pindex)
+    page = paginator.page(pindex)
+    # print(paginator.num_pages)
+    return render(request, 'pages/org/keyword/keyword-check.html', {'text_query': page, 'count': paginator})
+
+
+def keyword_query_check(request, pindex):
+    if request.method == 'GET':
+        return render(request, 'pages/org/keyword/keyword-check.html')
+    else:
+        textfield = request.POST.get('textfield')
+        # print(textfield)
+        try:
+            textfield = Keyword.objects.filter(keyword_name=textfield)
+        except:
+            return render(request, 'pages/org/keyword/keyword-check.html', {'error': '关键词不存在'})
+        else:
+            paginator = Paginator(textfield, 5)
+            # print(paginator.num_pages)
+            # print(list(paginator.page_range))
+            if pindex == '':
+                pindex = 1
+            else:
+                pindex = int(pindex)
+            page = paginator.page(pindex)
+            return render(request, 'pages/org/keyword/keyword-check.html', {'text_query': page, 'count': paginator})
+
+
+def keyword_edit(request):
+    """
+    编辑：将之前的-add界面重复
     :param request:
     :return:
-    '''
-    return render(request, 'pages/org/keyword/keyword-check.html')
+    """
+    if request.method == 'GET':
+        return render(request, 'pages/org/keyword/keyword-edit.html')
+    else:
+        sourch = request.POST.get('sourch')
+        kname = request.POST.get('key_name')
+        service = request.POST.get('u4_input')
+        service_year = request.POST.get('u5_input')
+        price = request.POST.get('price')
+        nowtime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # print(sourch,kname,service,service_year,price,nowtime)
+        # 计算到期时间
+        datatime = datetime.datetime.now().strftime("-%m-%d %H:%M:%S")
+        year = datetime.datetime.now().strftime("%Y")
+        service_years = int(service_year)
+        stopdate = int(year) + int(service_years)
+        expiretime = str(stopdate) + str(datatime)
+        last_time = datetime.datetime.strptime(expiretime, "%Y-%m-%d %H:%M:%S")
+        # print(last_time)
+
+        # 判断数据是否为空
+        if not all([sourch, kname, kname, service, service_year]):
+            return render(request, 'pages/org/keyword/keyword-edit.html', {'error': '输入信息不完整'})
+        else:
+            k = Keyword()
+            k.keyword_name = sourch
+            k.keyword_class = service
+            k.keywprd_years = service_year
+            k.keyword_price = price
+            k.keyword_newdate = nowtime
+            k.keyword_date = last_time
+            k.save()
+            return render(request, 'pages/org/keyword/keyword-edit.html')
 
 
+# 返回keyword-edit编辑页面，客户存在判断
+def keyword_edit_ajax(request):
+    keyname = request.GET.get('sourch')
+    # print(keyname)
+    try:
+        keyname_along = Company.objects.get(cname=keyname)
+        # print(keyname_along)
+    except:
+        return JsonResponse({'flag': 0, 'error': '客户不存在'})
+    else:
+        return JsonResponse({'keyname': keyname})
+
+
+# 返回keyword-edit编辑页面，关键词存在判断
+def keyword_key_name_ajax(request):
+    key_name = request.GET.get('key_name')
+    # print(key_name)
+    try:
+        kname_verify = Keyword.objects.get(keyword_name=key_name)
+    except:
+        return JsonResponse({'key_name': key_name})
+    else:
+        return JsonResponse({'flag': 0, 'error': '关键词已存在，请更换'})
+
+
+# 返回keyword-edit编辑页面，ajax传值，服务类型以及服务年限计算价格
+def keyword_key_price_ajax(request):
+    u4_input = request.GET.get('u4_input')
+    u5_input = request.GET.get('u5_input')
+    # print(u4_input,u5_input)
+    u_price = ServinceTb.objects.get(svctype=u4_input).money
+    if u5_input == '1' or u5_input == '2' or u5_input == '3':
+        price = int(u_price) * int(u5_input)
+        return JsonResponse({'price': price})
+    elif u5_input == '买二赠一':
+        price = int(u_price) * int(2)
+        return JsonResponse({'price': price})
+    else:
+        price = ' '
+        return JsonResponse({'price': price})
+
+
+# 开通app界面
+def keyword_kt(request):
+    if request.method == 'GET':
+        return render(request, 'pages/org/keyword/keyword-kt.html')
+    else:
+        user_app_name = request.POST.get('appname')
+        password = request.POST.get('password')
+        keyword_id = request.POST.get('key_id')
+
+        # 获取当前用户id
+        # u_id = request.session['user_logname']
+        if not all([user_app_name, password]):
+            return render(request, 'pages/org/keyword/keyword-kt.html', {'error': '请输入您的账号或密码'})
+        else:
+            a = App()
+            a.app_name = user_app_name
+            a.app_password = password
+            a.keyword_id = keyword_id
+            a.save()
+            return redirect('/org/keyword_check/')
+
+
+# 获取用户申请关键词信息，进行页面展示
+def keyword_kt_show(request, kt):
+    key_query = Keyword.objects.get(keyword_id=kt)
+    # print(key_query)
+    return render(request, 'pages/org/keyword/keyword-kt.html', {'keyquery': key_query})
+
+
+# 申请app账号，账号不能重复
+def keyword_kt_app_ajax(request):
+    app_name = request.GET.get('appname')
+    # print(app_name)
+    try:
+        util_app_name = App.objects.get(app_name=app_name)
+    except:
+        return JsonResponse({'flag': 0, 'error': '账号未注册，请输入密码'})
+    else:
+        return JsonResponse({'true': '账号已存在，请重新输入'})
+
+
+# 续费界面
+def keyword_xf(request):
+    if request.method == 'GET':
+        return render(request, 'pages/org/keyword/keyword-xf.html')
+    else:
+        server_add_years = request.POST.get('s_serve_year')
+        server_add_price = request.POST.get('price')
+        keyword_old_year = request.POST.get('old_year')  # 未续费之前的服务年限
+        keyword_old_price = request.POST.get('old_price')  # 未续费之前的价格
+        keyword_old_date = request.POST.get('old_date')  # 未续费之前到期的价格
+
+        # todo  计算总共的服务年限
+        year = int(server_add_years) + int(keyword_old_year)
+
+        # todo  计算总共的价格
+        old_price=float(keyword_old_price)
+        price=int(server_add_price)+int(old_price)
+
+        # todo  计算关键词的到期时间
+        date = keyword_old_date[:4]
+        time = keyword_old_date[4:]
+        years = int(date) + int(server_add_years)
+        expiretime = str(years) + str(time)
+        last_time = datetime.datetime.strptime(expiretime, "%Y-%m-%d %H:%M:%S")
+
+        if not all([year,price]):
+            return render(request, 'pages/org/keyword/keyword-xf.html',{'errmsg':'系统错误，请重新输入'})
+        else:
+            #todo 获取用户id
+            keyid=request.POST.get("key_id")
+            k=Keyword.objects.get(keyword_id=keyid)
+
+            k.keywprd_years=year
+            k.keyword_price=price
+            k.keyword_date=last_time
+            k.save()
+
+            return render(request, 'pages/org/keyword/keyword-xf.html')
+
+
+# 传参（xf:当前关键词id）
+def keyword_xf_show(request, xf):
+    key_query = Keyword.objects.get(keyword_id=xf)
+    # print(key_query)
+    return render(request, 'pages/org/keyword/keyword-xf.html', {'keyquery': key_query})
+
+
+# 计算续费价格
+def keyword_xf_ajax(request):
+    server = request.GET.get("server")
+    server_year = request.GET.get("server_year")
+    # print(server,server_year)
+    unit_price = ServinceTb.objects.get(svctype=server).money
+    # print(unit_price)
+    price = int(unit_price) * int(server_year)
+    # print(price)
+    return JsonResponse({"price": price})
+
+
+# 关键词审核
 def keyword_list(request):
     '''
     关键词审核
     :param request:
     :return:
     '''
-    return render(request, 'pages/org/keyword/keyword-list.html')
+    if request.method == 'GET':
+        keys_sudit=Keyword.objects.filter(keyword_check_state=2)
+        return render(request, 'pages/org/keyword/keyword-list.html',{'keys_sudit':keys_sudit})
+    else:
+        kname = request.POST.get('keyname')
+        keys_sudit = Keyword.objects.filter(keyword_check_state=2,keyword_name=kname)
+        return render(request, 'pages/org/keyword/keyword-list.html',{'keys_sudit':keys_sudit})
+
+#分页
+def keyword_list_page_show(request,pindex=1):
+        keys_sudit = Keyword.objects.filter(keyword_check_state=2)
+        paginator = Paginator(keys_sudit, 5)
+        if pindex == '':
+             pindex = 1
+        else:
+            pindex = int(pindex)
+        page = paginator.page(pindex)
+        return render(request, 'pages/org/keyword/keyword-list.html', {'text_query': page, 'count': paginator,'keys_sudit':page})
+
+
+
+#判断审核通过还是驳回，更改数据库
+def keyword_list_pass(request,bt):
+    key_object=Keyword.objects.get(keyword_id=bt)
+    if key_object.keyword_check_state == 2:
+        key_object.keyword_check_state = 1
+        key_object.save()
+        return redirect('/org/keyword_list/')
+    else:
+        return redirect('/org/keyword_list/')
+
+def keyword_list_nopass(request,bt):
+    key_object = Keyword.objects.get(keyword_id=bt)
+    if key_object.keyword_check_state == 2:
+        key_object.keyword_check_state = 0
+        key_object.save()
+        return redirect('/org/keyword_list/')
+    else:
+        return redirect('/org/keyword_list/')

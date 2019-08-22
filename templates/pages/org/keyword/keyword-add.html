@@ -5,9 +5,97 @@
     <title></title>
     <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/jquery1.9.0.min.js' %}"></script>
+    <script>
+        $(function () {
+        //验证客户是否存在
+           $("#bajax").click(function () {
+               sourch=$('#sourch').val();
+               $.ajax({
+                   'url':'/org/keyword_add_ajax',   //访问的服务器地址
+                   'type':'get',  //服务端的请求方式
+                   'dataType':'json',  //返回的数据格式
+                   'data':{'kname':sourch },   //返回数据
+
+               }).success(function(data){
+                   {#alert(data.flag)#}
+                   if (data.flag == 0){
+                       alert(data.error)
+                   }else{
+                       alert(data.kname);
+                       $(".sourch1").val(data.kname);
+                   }
+               }
+               )
+               });
+        //验证关键词，不能重复
+           $("#keyname").change(function () {
+               keyname=$(this).val()
+               $.ajax({
+                    'url':'/org/keyword_word_ajax',   //访问的服务器地址
+                   'type':'get',  //服务端的请求方式
+                   'dataType':'json',  //返回的数据格式
+                   'data':{'keyname':keyname },   //返回数据
+               }).success(function(data){
+                   if (data.flag == 0){
+                       alert(data.error)
+                   }else{
+                       {#alert(data.flag)#}
+                   }
+               })
+               });
+        //验证服务类型和服务年限
+           $("#u3_input").change(function () {
+               u2_input=$(this).parent().parent().parent().find("tr:eq(2)").find("td:eq(0)").find('#u2_input').val()
+               if (u2_input=='—请选择—') {
+                   alert('请选择服务类别')
+               }
+               else {
+               u3_input=$(this).val();
+               $.ajax({
+               'url':'/org/keyword_price_ajax',
+               'type':'get',
+               'datatType':'json',
+               'data':{'service':u2_input,'service_year':u3_input}
+
+               }).success(function (data) {
+                   alert(data.price);
+                   $(".price1").val(data.price);
+               })
+                   }
+           });
+           $("#u2_input").change(function () {
+               u3_input=$(this).parent().parent().parent().find("tr:eq(2)").find("td:eq(0)").find('#u3_input').val()
+               if (u3_input=='—请选择—') {
+                   alert('请选择服务类别')
+               }
+               else {
+               u2_input=$(this).val();
+               $.ajax({
+               'url':'/org/keyword_price_ajax',
+               'type':'get',
+               'datatType':'json',
+               'data':{'service':u2_input,'service_year':u3_input}
+
+               }).success(function (data) {
+                   alert(data.price);
+                   $(".price1").val(data.price);
+               })
+                   }
+           });
+
+        });
+
+
+
+    </script>
+    <script>
+
+    </script>
 </head>
 <body>
 <form action="{% url 'keyword_add' %}" method="post">
+    {% csrf_token %}
     <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="3">
         <tr>
             <td style="height:25px; background-color:#f3f3f3; font-weight:bold" valign="top">&nbsp;&nbsp;&nbsp;&nbsp;当前位置：
@@ -48,13 +136,14 @@
 
                        class="table1">
                     <TR>
-                        <th width="10%" align="center">搜索客户：
-                        <td width="20%" class="BGCgray"><input type="text" name="sourch">输入后自动搜索<font color=red>【当前账户余额：¥
-                            15758002.02】</font>
-
+                        <th width="5.2%" align="center">搜索客户：
+                        <td width="10%" class="BGCgray">
+                        <input type="text" id="sourch" name="sourch"><font color=red>【当前账户余额：¥ {{ User.user_caiwu }}】</font>
+                        <input type="button" id="bajax" value="查找客户">
                             </div>
                         </th></td>
-                        <th width="10%" align="center"></th>
+                        <th width="10%" align="center">
+                        </th>
                     </TR>
                 </table>
             </td>
@@ -65,19 +154,19 @@
                     <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
                         <TR>
                             <th width="20%" align="center">客户名称</th>
-                            <TD class="BGCgray"><input type="text" name="name"/></TD>
+                            <TD class="BGCgray"><input class='sourch1' type="text" name="name" value="{{ sourch }}"/></TD>
                         </TR>
                         <TR>
-                            <th width="20%" align="center">关键词</th>
-                            <TD class="BGCgray"><input type="text" name="keyword"/></TD>
+                            <th width="20%" align="center" >关键词</th>
+                            <TD class="BGCgray"><input type="text" id="keyname" name="keyname"/></TD>
                         </TR>
                         <TR>
                             <th width="20%" align="center">服务类别</th>
                             <TD class="BGCgray">
-                                <select id="u2_input" name="service">
+                                <select id="u2_input" name="u2_input" >
                                     <option selected value="—请选择—">—请选择—</option>
                                     <option value="上传苹果商城">上传苹果商城</option>
-                                    <option value="不上传苹果商城">不上传苹果商城</option>
+                                    <option value="不上传苹果公司">不上传苹果公司</option>
                                 </select>
                             </TD>
                         </TR>
@@ -85,7 +174,7 @@
                         <TR>
                             <th width="20%" align="center">服务年限</th>
                             <TD class="BGCgray">
-                                <select id="u3_input" name="service_year">
+                                <select id="u3_input" name="u3_input">
                                     <option selected value="—请选择—">—请选择—</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -97,7 +186,7 @@
 
                         <TR>
                             <th align="center">价格</th>
-                            <TD width="80%" class="BGCgray"><input type="text" name="price"/></TD>
+                            <TD width="80%" class="BGCgray"><input class="price1" type="text" name="price" value=""/></TD>
                         </TR>
 
                     </table>
@@ -107,12 +196,14 @@
 
                                 src="{% static 'images/btn_save.gif' %}" width="16" height="16" align="absmiddle">提交信信息
                         </BUTTON>
-
+                        {{ error }}
                     </div>
                 </div>
             </td>
         </tr>
     </table>
 </form>
+
+
 </body>
 </html>

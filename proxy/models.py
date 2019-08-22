@@ -80,6 +80,30 @@ class Keyword(models.Model):
         managed = False
         db_table = 'keyword'
 
+    def key_apply(self):
+        if self.keyword_apply_state == 0:
+            return '过期'
+        else:
+            return '未过期'
+
+    def key_check(self):
+        if self.keyword_check_state == 0:
+            return '未通过'
+        elif self.keyword_check_state == 1:
+            return '已通过'
+        else:
+            return '审核中'
+
+    def  key_use(self):
+        if self.keyword_use_state == 1:
+            return '已使用'
+        else:
+            return '未使用'
+    def key_app(self):
+        if self.keyword_app_state ==1:
+            return '开通'
+        else:
+            return '未开通'
 
 class Province(models.Model):
     id = models.CharField(max_length=15)

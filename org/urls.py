@@ -33,7 +33,37 @@ urlpatterns = [
 
     path('org_finace/', views.org_finace, name='org_finace'),  # 访问系统管理的财务管理路由
 
+    # 关键词keyword-add界面处理
     path('keyword_add/', views.keyword_add, name='keyword_add'),  # 关键词申请
+    path('keyword_add_ajax/', views.keyword_add_ajax, name='keyword_add_ajax'),  # 客户搜索
+    path('keyword_word_ajax/', views.keyword_word_ajax, name="keyword_word_ajax"),  # 关键词验证
+    path('keyword_price_ajax/', views.keyword_price_ajax, name='keyword_price_ajax'),  # 价格计算
+
+    # 关键词keyword-check界面处理
     path('keyword_check/', views.keyword_check, name='keyword_check'),  # 关键词申请管理
-    path('keyword_list', views.keyword_list, name='keyword_list'),  # 关键词审核
+    path('keyword_check/<int:pindex>', views.keyword_check, name='keyword_check_show'),  # 展示分页
+    path('keyword_query_check/<int:pindex>', views.keyword_query_check, name='keyword_query_check'),  # 页面关键词查询
+
+    # -edit 处理，关键词申请
+    path('keyword_edit/', views.keyword_edit, name='keyword_edit'),  # 编辑
+    path('keyword_edit_ajax/', views.keyword_edit_ajax, name='keyword_edit_ajax'),  # 客户存在验证
+    path('keyword_key_name_ajax/', views.keyword_key_name_ajax, name='keyword_key_name_ajax'),  # 关键词存在验证
+    path('keyword_key_price_ajax/', views.keyword_key_price_ajax, name="keyword_key_price_ajax"),  # 计算价格
+
+    # -kt  处理  ，开通app
+    path('keyword_kt/', views.keyword_kt, name='keyword_kt'),  # 开通app
+    path('keyword_kt_show/<int:kt>', views.keyword_kt_show, name='keyword_kt_show'),  # 展示关键词信息
+    path('keyword_kt_app_ajax/', views.keyword_kt_app_ajax, name='keyword_kt_app_ajax'),  # 判断注册app名不能重复
+
+    # -xf  处理， 续费功能
+    path('keyword_xf/', views.keyword_xf, name='keyword_xf'),  # 续费
+    path('keyword_xf_show/<int:xf>', views.keyword_xf_show, name='keyword_xf_show'),  # 显示客户关键词信息，以及操作客户
+    path('keyword_xf_ajax/', views.keyword_xf_ajax, name='keyword_xf_ajax'),  # ajax获取服务类型，年限计算价格
+    # 关键词续费审核
+    path('keyword_list/', views.keyword_list, name='keyword_list'),  # 关键词续费审核
+    # 分页
+    # path('keyword_list_page/', views.keyword_list_page, {'pindex': 1}, name="keyword_list_page"),  # 分页
+    path('keyword_list_page_show/',views.keyword_list_page_show,{'pindex': 1},name="keyword_list_page_show"),
+    path('keyword_list_pass/<int:bt>',views.keyword_list_pass,name="keyword_list_pass"),
+    path('keyword_list_nopass/<int:bt>',views.keyword_list_nopass,name="keyword_list_nopass")
 ]

@@ -1,149 +1,138 @@
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-{% load staticfiles %}
-<title></title>
-<link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    {% load staticfiles %}
+    <title></title>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/jquery1.9.0.min.js' %}"></script>
 </head>
 <body>
 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="3">
-  <tr>
-    <td style="height:25px; background-color:#f3f3f3; font-weight:bold" valign="top">
-    &nbsp;&nbsp;&nbsp;&nbsp;当前位置：
-    <img src="{% static 'images/arrow.gif' %}" align="absmiddle">&nbsp;&nbsp;代理商管理系统&nbsp;&nbsp; <img src="{% static 'images/arrow.gif' %}" align="absmiddle">&nbsp;&nbsp;系统管理&nbsp;&nbsp; <img src="{% static 'images/arrow.gif' %}" align="absmiddle">&nbsp;&nbsp;关键词审核</td>
-  </tr>
-  <tr>
-    <td style="height:34px; background-image:url({% static 'images/main_header.gif' %}); border-bottom:1px solid #cfd8e0; padding:0px">
-      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+{#    <form action="{% url 'keyword_list_page_show' pindex=1 %}" method="post">#}
         <tr>
-          <td width="20" height="34"><img src="{% static 'images/main_headerL.gif' %}" width="20" height="34"></td>
-          <td style="color:#90c8e8;"><img src="{% static 'images/icon_card.gif' %}" width="16" height="16" align="absmiddle">&nbsp;&nbsp;<strong>关键词审核</strong></td>
-          <td align="right" class="white" style="padding-right:20px"><a href="#" class="barBtn" onClick="javascript:history.go(-1);"><img src="{% static 'images/btn_left.gif' %}" align="absmiddle"> 后退</a> <a href="#" class="barBtn" onClick="javascript:history.go(+1);"><img src="{% static 'images/btn_right.gif' %}" align="absmiddle"> 前进</a> <a href="#" class="barBtn"><img src="{% static 'images/btn_refresh.gif' %}" align="absmiddle"> 刷新</a></td>
+            <td style="height:25px; background-color:#f3f3f3; font-weight:bold" valign="top">
+                &nbsp;&nbsp;&nbsp;&nbsp;当前位置：
+                <img src="{% static 'images/arrow.gif' %}" align="absmiddle">&nbsp;&nbsp;代理商管理系统&nbsp;&nbsp; <img
+                    src="{% static 'images/arrow.gif' %}" align="absmiddle">&nbsp;&nbsp;系统管理&nbsp;&nbsp; <img
+                    src="{% static 'images/arrow.gif' %}" align="absmiddle">&nbsp;&nbsp;关键词审核
+            </td>
         </tr>
-    </table></td>
-  </tr>
-  <tr>
-    <td style="height:30px; background-color:#bddbff; border-bottom:1px solid #cfd8e0;"><table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
-      <TR>
-        <th width="10%" align="center">关键词</th>
-        <td width="20%" class="BGCgray"><input type="text"></td>
-        <th width="10%" align="center"><BUTTON style="HEIGHT:25px" onClick="javascript:if (confirm('查询数据？')) location.href='#';else return;"><img src="{% static 'images/btn_search.gif' %}" width="16" height="16" align="absmiddle"> 查询</BUTTON></th>
-        </TR>
-    </table></td>
-  </tr>
-  <tr>
-    <td height="100%" valign="top">
-    <div style="overflow:auto;height:100%; width:100%">
-      <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
-        <TR>
-          <th align="center"><input type="checkbox" name="checkbox" id="checkbox"></th>
-          <th align="center">序号</th>
-          <th align="center">关键词</th>
-          <th align="center">客户名称</th>
-          <th align="center">代理商</th>
-		  <th align="center">申请年限</th>
-		  <th align="center">申请日期</th>
-		  <th align="center">到期日期</th>
-		  <th align="center">申请到期状态</th>
-		  <th align="center">审核状态</th>
-		  <th align="center">使用状态</th>
-          <th width="160" align="center">操作</th>
-        </TR>
-       
-		<TR>
-          <TD align="center"><input type="checkbox" name="checkbox2" id="checkbox2"></TD>
-		  <TD align="center">1</TD>
-          <TD align="center">112</TD>
-          <TD align="center">999999</TD>
-          <TD align="center">韩露</TD>
-          <TD align="center">1</TD>
-          <TD align="center">2013-05-12 12:03:06</TD>
-		  <TD align="center">2014-05-12 12:03:06</TD>
-		  <TD align="center">未过期</TD>
-		  <TD align="center">审核中</TD>
-		  <TD align="center">使用状态</TD>
-          <TD width="160" align="center">
-			<button>通过</button>
-            <button>驳回</button>
-		  </TD>
-        </TR>
-		<TR>
-          <TD align="center"><input type="checkbox" name="checkbox2" id="checkbox2"></TD>
-		  <TD align="center">2</TD>
-          <TD align="center">112</TD>
-          <TD align="center">999999</TD>
-          <TD align="center">韩露</TD>
-          <TD align="center">1</TD>
-          <TD align="center">2013-05-12 12:03:06</TD>
-		  <TD align="center">2014-05-12 12:03:06</TD>
-		  <TD align="center">未过期</TD>
-		  <TD align="center">审核中</TD>
-		  <TD align="center">使用状态</TD>
-          <TD width="160" align="center">
-			<button>通过</button>
-            <button>驳回</button>
-		  </TD>
-        </TR>
-		<TR>
-          <TD align="center"><input type="checkbox" name="checkbox2" id="checkbox2"></TD>
-		  <TD align="center">3</TD>
-          <TD align="center">112</TD>
-          <TD align="center">999999</TD>
-          <TD align="center">韩露</TD>
-          <TD align="center">1</TD>
-          <TD align="center">2013-05-12 12:03:06</TD>
-		  <TD align="center">2014-05-12 12:03:06</TD>
-		  <TD align="center">未过期</TD>
-		  <TD align="center">审核中</TD>
-		  <TD align="center">使用状态</TD>
-          <TD width="160" align="center">
-			<button>通过</button>
-            <button>驳回</button>
-		  </TD>
-        </TR>
-		<TR>
-          <TD align="center"><input type="checkbox" name="checkbox2" id="checkbox2"></TD>
-		  <TD align="center">4</TD>
-          <TD align="center">112</TD>
-          <TD align="center">999999</TD>
-          <TD align="center">韩露</TD>
-          <TD align="center">1</TD>
-          <TD align="center">2013-05-12 12:03:06</TD>
-		  <TD align="center">2014-05-12 12:03:06</TD>
-		  <TD align="center">未过期</TD>
-		  <TD align="center">审核中</TD>
-		  <TD align="center">使用状态</TD>
-          <TD width="160" align="center">
-			<button>通过</button>
-            <button>驳回</button>
-		  </TD>
-        </TR>
+        <tr>
+            <td style="height:34px; background-image:url({% static 'images/main_header.gif' %}); border-bottom:1px solid #cfd8e0; padding:0px">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td width="20" height="34"><img src="{% static 'images/main_headerL.gif' %}" width="20"
+                                                        height="34">
+                        </td>
+                        <td style="color:#90c8e8;"><img src="{% static 'images/icon_card.gif' %}" width="16" height="16"
+                                                        align="absmiddle">&nbsp;&nbsp;<strong>关键词审核</strong></td>
+                        <td align="right" class="white" style="padding-right:20px"><a href="#" class="barBtn"
+                                                                                      onClick="javascript:history.go(-1);"><img
+                                src="{% static 'images/btn_left.gif' %}" align="absmiddle"> 后退</a> <a href="#"
+                                                                                                      class="barBtn"
+                                                                                                      onClick="javascript:history.go(+1);"><img
+                                src="{% static 'images/btn_right.gif' %}" align="absmiddle"> 前进</a> <a href="#"
+                                                                                                       class="barBtn"><img
+                                src="{% static 'images/btn_refresh.gif' %}" align="absmiddle"> 刷新</a></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="height:30px; background-color:#bddbff; border-bottom:1px solid #cfd8e0;">
+                <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
+                    <form action="{% url 'keyword_list' %}" method="post">
+                    <TR>
+                        <th width="10%" align="center">关键词</th>
+                        <td width="20%" class="BGCgray"><input type="text" id="keyname" name="keyname"></td>
+                        <th width="10%" align="center">
+                            <BUTTON style="HEIGHT:25px" id="bajax"><img
+                                    src="{% static 'images/btn_search.gif' %}" width="16" height="16" align="absmiddle">
+                                查询
+                            </BUTTON>
+                        </th>
+                    </TR>
+                    </form>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td height="100%" valign="top">
+                <div style="overflow:auto;height:100%; width:100%">
+                    <table width="100%" border="0" cellpadding="3" cellspacing="1" class="table1">
+                        <TR>
+                            <th align="center"><input type="checkbox" name="checkbox" id="checkbox"></th>
+                            <th align="center">序号</th>
+                            <th align="center">关键词</th>
+                            <th align="center">客户名称</th>
+                            <th align="center">代理商</th>
+                            <th align="center">申请年限</th>
+                            <th align="center">申请日期</th>
+                            <th align="center">到期日期</th>
+                            <th align="center">申请到期状态</th>
+                            <th align="center">审核状态</th>
+                            <th align="center">使用状态</th>
+                            <th width="160" align="center">操作</th>
+                        </TR>
 
-      </table>
-      <table width="100%" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-          <td width="20%" height="25"><table border="0" cellspacing="0" cellpadding="3">
-            <tr>
-              <td><a href="#"><img src="{% static 'images/prev_top.gif' %}" width="16" height="16" border="0" title="首页"></a></td>
-              <td><a href="#"><img src="{% static 'images/prev.gif' %}" width="16" height="16" border="0" title="上一页"></a></td>
-              <td><a href="#"><img src="{% static 'images/next.gif' %}" width="16" height="16" border="0" title="下一页"></a></td>
-              <td><a href="#"><img src="{% static 'images/prev_end.gif' %}" width="16" height="16" border="0" title="尾页"></a></td>
-            </tr>
-          </table></td>
-          <td width="20%" align="center"><table border="0" cellspacing="0" cellpadding="3">
-            <tr>
-              <td><a href="#"><img src="{% static 'images/next.gif' %}" width="16" height="16" border="0"></a></td>
-              <td><input name="textfield23" type="text" size="3" style="width:25;height:18">
-                /页</td>
-            </tr>
-          </table></td>
-          <td width="20%" align="right">共10条记录显示到1/1</td>
+                        {% for keys in keys_sudit %}
+                            <TR>
+                                <TD align="center"><input type="checkbox" name="checkbox2" id="checkbox2"></TD>
+                                <TD align="center">{{ keys.keyword_id }}</TD>
+                                <TD align="center">{{ keys.keyword_name }}</TD>
+                                <TD align="center">{{ keys.cid.cname }}</TD>
+                                <TD align="center">{{ keys.user_id }}</TD>
+                                <TD align="center">{{ keys.keywprd_years }}</TD>
+                                <TD align="center">{{ keys.keyword_newdate }}</TD>
+                                <TD align="center">{{ keys.keyword_date }}</TD>
+                                <TD align="center">{{ keys.key_apply }}</TD>
+                                <TD align="center">{{ keys.key_check }}</TD>
+                                <TD align="center">{{ keys.key_use }}</TD>
+                                <TD width="160" align="center">
+                                    <button onclick=location.href="{% url 'keyword_list_pass' bt=keys.keyword_id %}">通过</button>
+                                    <button onclick=location.href="{% url 'keyword_list_nopass' bt=keys.keyword_id %}">驳回</button>
+                                </TD>
+                            </TR>
+                        {% endfor %}
+
+
+                    </table>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td width="20%" height="25">
+                                <table border="0" cellspacing="0" cellpadding="3">
+                                    <tr>
+                                        {% if text_query.has_previous %}
+                                            <td><a href="{% url 'keyword_list_page' pindex=text_query.previous_page_number %}"><img src="{% static 'images/prev_top.gif' %}" width="16"
+                                                                 height="16"
+                                                                 border="0" title="首页"></a></td>
+                                            <td><a href="{% url 'keyword_list_page' pindex=text_query.forloop.counter %}"><img src="{% static 'images/prev.gif' %}" width="16"
+                                                                 height="16"
+                                                                 border="0" title="上一页"></a></td>
+                                        {% endif %}
+                                        <td><a href="#"><img src="{% static 'images/next.gif' %}" width="16" height="16"
+                                                             border="0" title="下一页"></a></td>
+                                        <td><a href="#"><img src="{% static 'images/prev_end.gif' %}" width="16"
+                                                             height="16"
+                                                             border="0" title="尾页"></a></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            {#          <td width="20%" align="center"><table border="0" cellspacing="0" cellpadding="3">#}
+                            {#            <tr>#}
+                            {#              <td><a href="#"><img src="{% static 'images/next.gif' %}" width="16" height="16" border="0"></a></td>#}
+                            {#              <td><input name="textfield23" type="text" size="3" style="width:25;height:18">#}
+                            {#                /页</td>#}
+                            {#            </tr>#}
+                            {#          </table></td>#}
+                            <td width="20%" align="right">共10条记录显示到1/1</td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
         </tr>
-      </table>
-    </div>
-  </td>
-  </tr>
+    </form>
 </table>
 </body>
 </html>
