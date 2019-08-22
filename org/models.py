@@ -95,8 +95,6 @@ class Menu(models.Model):
             return '禁用'
 
 
-
-
 class Role(models.Model):
     role_id = models.AutoField(primary_key=True)
     role_name = models.CharField(max_length=100)
@@ -136,4 +134,3 @@ class Pic(models.Model):
     class Meta:
         managed = False
         db_table = 'org_pic'
-
